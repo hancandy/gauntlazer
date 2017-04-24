@@ -1,25 +1,33 @@
+/**
+ * The main class for managing tiles and actors
+ */
 class Map
 {
- int[][] layout;
- 
- Map(int[][] lo)
- {
-   layout = lo;
- }
- 
- void drawLevel()
- {
-   for (int y=0;y<25;y++)
-   {
-    for (int x=0;x< 25; x++)
+  final int TILE_SIZE = 20;
+
+  int[][] layout;
+  PVector camera = new PVector(0, 0);
+
+  Map(int[][] layout)
+  {
+      this.layout = layout;
+  }
+
+  void update()
+  {
+  }
+
+  void draw()
+  {
+    for (int y=0;y<layout.length;y++)
     {
-     if (layout[x][y]==1)
-     {
-      rect(x*20,y*20,20,20); 
-     }
+      for (int x=0;x<layout[y].length; x++)
+      {
+        if (layout[y][x]==1)
+        {
+          rect(x*20,y*20,20,20); 
+        }
+      }
     }
-   }
- }
- 
- //camera
+  }
 }
