@@ -4,7 +4,8 @@
 class Map
 {
     Actor[] actors;
-    PVector camera = new PVector(0, 0);
+    PVector cameraPosition = new PVector(0, 0);
+    PVector areaSize = new PVector(0, 0);    
 
     /**
      * Constructor
@@ -41,13 +42,42 @@ class Map
                 actor.position.x = x * TILE_SIZE;
                 actor.position.y = y * TILE_SIZE;
 
-                // Add the actor to the temporary list
-                actorList.add(actor);
+                // Add the Players to the bottom of temporary list
+                if(actor instanceof Player)
+                {
+                    actorList.add(actor);
+                }
+
+                // Add all other Actors in the beginning,
+                // so they will be drawn first (behind the Players)
+                else
+                {
+                    actorList.add(0, actor);
+                }
+
+                // Add to the map area size
+                if(actor.getXMax() > areaSize.x) { areaSize.x = actor.getXMax(); } 
+                if(actor.getYMax() > areaSize.y) { areaSize.y = actor.getYMax(); } 
             }
         }
 
         // For performance reasons, convert the temporary ArrayList to an Array
         actors = actorList.toArray(new Actor[0]);
+    }
+
+    /**
+     * Moves the camera position
+     */
+    void moveCamera(float x, float y)
+    {
+        cameraPosition.x += x * CAMERA_SPEED * game.deltaTime * game.timeScale;
+        cameraPosition.y += y * CAMERA_SPEED * game.deltaTime * game.timeScale;
+
+        // Keep camera in-bounds
+        if(cameraPosition.x < 0) { cameraPosition.x = 0; }
+        if(cameraPosition.x + SCREEN_SIZE.x > areaSize.x ) { cameraPosition.x = areaSize.x - SCREEN_SIZE.x; }
+        if(cameraPosition.y < 0) { cameraPosition.y = 0; }
+        if(cameraPosition.y + SCREEN_SIZE.y > areaSize.y ) { cameraPosition.y = areaSize.y - SCREEN_SIZE.y; }
     }
 
     /**
@@ -66,6 +96,34 @@ class Map
 
             // Check if this Actor has any collisions
             checkCollisions(actors[i]);
+
+            // Check Player's position in relation to camera
+            if(actors[i] instanceof Player)
+            {
+                // Right    
+                if(actors[i].getXMax() > cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
+                {
+                    moveCamera(1, 0);
+                }
+                
+                // Left
+                if(actors[i].getXMin() < cameraPosition.x + CAMERA_MARGIN)
+                {
+                    moveCamera(-1, 0);
+                }
+                
+                // Top    
+                if(actors[i].getYMax() > cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
+                {
+                    moveCamera(0, 1);
+                }
+                
+                // Bottom
+                if(actors[i].getYMin() < cameraPosition.y + CAMERA_MARGIN)
+                {
+                    moveCamera(0, -1);
+                }
+            }
         }
     }
 
@@ -122,6 +180,8 @@ class Map
      */
     void draw()
     {
+        translate(-cameraPosition.x, -cameraPosition.y);
+
         for(int i = 0; i < actors.length; i++)
         {
             // If the Actor shouldn't be drawn, cancel

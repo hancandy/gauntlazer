@@ -58,4 +58,36 @@ class Actor
     void onCollision(Actor other, Rectangle intersection)
     {
     }
+
+    /**
+     * Get the calculated minimum X axis position
+     */
+    float getXMin()
+    {
+        return position.x + bounds.x;
+    }
+    
+    /**
+     * Get the calculated maximum X axis position
+     */
+    float getXMax()
+    {
+        return position.x + bounds.x + bounds.width;
+    }
+    
+    /**
+     * Get the calculated minimum Y axis position
+     */
+    float getYMin()
+    {
+        return position.y + bounds.y;
+    }
+    
+    /**
+     * Get the calculated maximum Y axis position
+     */
+    float getYMax()
+    {
+        return position.y + bounds.y + bounds.height;
+    }
 }
