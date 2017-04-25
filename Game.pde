@@ -1,14 +1,21 @@
+/**
+ * The main game logic
+ */
 class Game
 {
-    private Map currentMap;
-    private int lastMillis = 0;
+    Map currentMap;
+    int lastMillis = 0;
 
-    public float timeScale = 1.0;
-    public float deltaTime = 0.0;
+    float timeScale = 1.0;
+    float deltaTime = 0.0;
 
-    public void update()
+    /**
+     * Updates the currently loaded Map
+     */
+    void update()
     {
-        deltaTime = millis() - lastMillis;
+        // Calculate delta time
+        deltaTime = (millis() - lastMillis) * 0.001 * timeScale;
         lastMillis = millis();
 
         if(currentMap == null) { return; }
@@ -16,15 +23,31 @@ class Game
         currentMap.update();
     }
 
-    public void draw()
+    /**
+     * Draws the currently loaded Map
+     */
+    void draw()
     {
         if(currentMap == null) { return; }
         
         currentMap.draw();
     }
 
-    public void loadMap(Map newMap)
+    /**
+     * Loads a new Map
+     */
+    void loadMap(Map newMap)
     {
         currentMap = newMap;
+    }
+
+    /**
+     * Handles input events
+     */
+    void inputKey(int code, boolean isPressed)
+    {
+        if(currentMap == null) { return; }
+        
+        currentMap.inputKey(code, isPressed);
     }
 }

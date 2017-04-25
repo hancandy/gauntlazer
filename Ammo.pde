@@ -1,5 +1,7 @@
-//Restores player ammunition
-class Ammo extends Powerup
+/**
+ * Restores Player ammunition
+ */
+class Ammo extends Item
 {
     public int amount = 50;
 }

@@ -1,6 +1,7 @@
-//Can use simple AI to control movement
-//Can do a simple raycast to check for line of sight
-//has a damage amount
+/**
+ * A simple AI that follows the player and damages them
+ */
 class Character extends Pawn
 {
+    float damage = 10.0;
 }

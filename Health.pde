@@ -1,4 +1,6 @@
-class Health extends Powerup
+/**
+ * Restores Player health
+ */
+class Health extends Item
 {
- //Restores player health                                                                                                                                                                       
 }

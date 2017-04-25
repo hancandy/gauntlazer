@@ -1,4 +1,6 @@
-// Can open doors, if they exist in the player's inventory                                                                                                                                     
+/**
+ * Can open Doors if they are held by the Player
+ */
 class Key extends Item
 {
 }

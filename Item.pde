@@ -1,5 +1,6 @@
-// Can be picked up by the player
-// Needs a boolean for can/cannot be stored in inventory
+/**
+ * Can be picked up by the Player
+ */
 class Item extends Actor
 {
 }
