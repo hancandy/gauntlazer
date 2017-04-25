@@ -3,7 +3,7 @@
  */
 class Map
 {
-    Actor[] actors;
+    ArrayList<Actor> actors = new ArrayList<Actor>();
     PVector cameraPosition = new PVector(0, 0);
     PVector areaSize = new PVector(0, 0);    
 
@@ -12,9 +12,6 @@ class Map
      */
     Map(int[][] layout)
     {
-        // Create a temporary list of Actors, so we can add an arbitrary number
-        ArrayList<Actor> actorList = new ArrayList<Actor>();
-
         // Loop through the layout's Y axis
         for(int y = 0; y < layout.length; y++)
         {
@@ -30,6 +27,14 @@ class Map
                       actor = new Wall();
                       break;
                     
+                    case 2: // Door
+                      actor = new Door();
+                      break;
+                    
+                    case 3: // Key
+                      actor = new Key();
+                      break;
+                    
                     case 9: // Player
                       actor = new Player();
                       break;
@@ -42,17 +47,17 @@ class Map
                 actor.position.x = x * TILE_SIZE;
                 actor.position.y = y * TILE_SIZE;
 
-                // Add the Players to the bottom of temporary list
+                // Add the Players to the bottom of the list
                 if(actor instanceof Player)
                 {
-                    actorList.add(actor);
+                    actors.add(actor);
                 }
 
                 // Add all other Actors in the beginning,
                 // so they will be drawn first (behind the Players)
                 else
                 {
-                    actorList.add(0, actor);
+                    actors.add(0, actor);
                 }
 
                 // Add to the map area size
@@ -60,9 +65,21 @@ class Map
                 if(actor.getYMax() > areaSize.y) { areaSize.y = actor.getYMax(); } 
             }
         }
+    }
 
-        // For performance reasons, convert the temporary ArrayList to an Array
-        actors = actorList.toArray(new Actor[0]);
+    /**
+     * Destroys an actor
+     */
+    void destroy(Actor actor)
+    {
+        for(int i = 0; i < actors.size(); i++)
+        {
+            if(actor == actors.get(i))
+            {
+                actors.remove(i);
+                return;
+            }
+        }
     }
 
     /**
@@ -85,43 +102,60 @@ class Map
      */
     void update()
     {
-        // Loop through all Actors
-        for(int i = 0; i < actors.length; i++)
+        Actor actor;
+
+        // Loop through all Actors,
+        // backwards so we can remove an Actor if we need to
+        for(int i = actors.size() - 1; i >= 0; i--)
         {
+            actor = actors.get(i);
+
+            // Add to Actor lifetime
+            actor.lifetime += game.deltaTime;
+
             // If the Actor shouldn't update, cancel
-            if(!actors[i].canUpdate) { continue; }
+            if(!actor.canUpdate) { continue; }
 
             // Update the Actor
-            actors[i].update();
+            actor.update();
 
             // Check if this Actor has any collisions
-            checkCollisions(actors[i]);
+            checkCollisions(actor);
 
             // Check Player's position in relation to camera
-            if(actors[i] instanceof Player)
+            if(actor instanceof Player)
             {
                 // Right    
-                if(actors[i].getXMax() > cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
+                if(actor.getXMax() > cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
                 {
                     moveCamera(1, 0);
                 }
                 
                 // Left
-                if(actors[i].getXMin() < cameraPosition.x + CAMERA_MARGIN)
+                if(actor.getXMin() < cameraPosition.x + CAMERA_MARGIN)
                 {
                     moveCamera(-1, 0);
                 }
                 
                 // Top    
-                if(actors[i].getYMax() > cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
+                if(actor.getYMax() > cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
                 {
                     moveCamera(0, 1);
                 }
                 
                 // Bottom
-                if(actors[i].getYMin() < cameraPosition.y + CAMERA_MARGIN)
+                if(actor.getYMin() < cameraPosition.y + CAMERA_MARGIN)
                 {
                     moveCamera(0, -1);
+                }
+            }
+
+            // Check Projectile lifetime
+            if(actor instanceof Projectile)
+            {
+                if(actor.lifetime > PROJECTILE_LIFETIME)
+                {
+                    actors.remove(i);
                 }
             }
         }
@@ -142,12 +176,12 @@ class Map
         Rectangle intersection = new Rectangle(0, 0, 0, 0);
 
         // Loop through all Actors
-        for(int i = 0; i < actors.length; i++)
+        for(int i = 0; i < actors.size(); i++)
         {
             // If this Actor is the same as the query Actor,
             // or this Actor doesn't need collision checking,
             // cancel
-            if(actor == actors[i] || !actors[i].checkCollisions) { continue; }
+            if(actor == actors.get(i) || !actors.get(i).checkCollisions) { continue; }
 
             // Adopt the query Actor position and bounds into rect1
             rect1.x = int(actor.position.x) + actor.bounds.x;
@@ -156,10 +190,10 @@ class Map
             rect1.height = actor.bounds.height;
             
             // Adopt this Actor position and bounds into rect2
-            rect2.x = int(actors[i].position.x) + actors[i].bounds.x;
-            rect2.y = int(actors[i].position.y) + actors[i].bounds.y;
-            rect2.width = actors[i].bounds.width;
-            rect2.height = actors[i].bounds.height;
+            rect2.x = int(actors.get(i).position.x) + actors.get(i).bounds.x;
+            rect2.y = int(actors.get(i).position.y) + actors.get(i).bounds.y;
+            rect2.width = actors.get(i).bounds.width;
+            rect2.height = actors.get(i).bounds.height;
 
             // Get the intersection Rectangle
             intersection = rect1.intersection(rect2);
@@ -169,8 +203,8 @@ class Map
             {
                 // Trigger the collision event on the Actors,
                 // passing in the collided other Actor and the intersection Rectangle
-                actor.onCollision(actors[i], intersection);
-                actors[i].onCollision(actor, intersection);
+                actor.onCollision(actors.get(i), intersection);
+                actors.get(i).onCollision(actor, intersection);
             }
         }
     }
@@ -182,12 +216,12 @@ class Map
     {
         translate(-cameraPosition.x, -cameraPosition.y);
 
-        for(int i = 0; i < actors.length; i++)
+        for(int i = 0; i < actors.size(); i++)
         {
             // If the Actor shouldn't be drawn, cancel
-            if(!actors[i].canDraw) { continue; }
+            if(!actors.get(i).canDraw) { continue; }
 
-            actors[i].draw();
+            actors.get(i).draw();
         }
     }
    
@@ -196,12 +230,22 @@ class Map
      */ 
     void inputKey(int code, boolean isPressed)
     {
-        for(int i = 0; i < actors.length; i++)
+        for(int i = 0; i < actors.size(); i++)
         {
             // If the Actor shouldn't listen for input, cancel
-            if(!actors[i].hasInput) { continue; }
+            if(!actors.get(i).hasInput) { continue; }
 
-            actors[i].inputKey(code, isPressed);
+            actors.get(i).inputKey(code, isPressed);
         }
+    }
+
+    /**
+     * Spawns a projectile
+     */
+    void spawnProjectile(PVector position, PVector direction)
+    {
+        Projectile p = new Projectile(position, direction);
+
+        actors.add(p);
     }
 }

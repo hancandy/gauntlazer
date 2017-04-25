@@ -4,8 +4,17 @@
 class Pawn extends Actor
 {
     float speed = 100.0;
-    float health = 100.0;
+    int health = 100;
     PVector velocity = new PVector(0, 0);
+    PVector direction = new PVector(0, 1);
+
+    /**
+     * Update
+     */
+    void update()
+    {
+        super.update();
+    }
 
     /**
      * Applies velocity to the Pawn's position
@@ -14,8 +23,30 @@ class Pawn extends Actor
     {
         position.x += velocity.x * speed * game.deltaTime;
         position.y += velocity.y * speed * game.deltaTime;
-    }
 
+        // Keep track of the last direction the pawn was headed in
+        if(velocity.y > 0)
+        {
+            direction.x = 0;
+            direction.y = 1;
+        }
+        else if(velocity.y < 0)
+        {
+            direction.x = 0;
+            direction.y = -1;
+        }
+        else if(velocity.x > 0)
+        {
+            direction.x = 1;
+            direction.y = 0;
+        }
+        else if(velocity.x < 0)
+        {
+            direction.x = -1;
+            direction.y = 0;
+        }
+    }
+    
     /**
      * Collision event
      */

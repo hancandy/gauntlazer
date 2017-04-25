@@ -6,8 +6,12 @@ class Actor
     // Location in the world
     PVector position = new PVector(0, 0);
 
+    // Lifetime
+    float lifetime = 0;
+
     // The rendereed image
     PImage sprite;
+    SpriteSheet spriteSheet;
 
     // Bounds for collision
     Rectangle bounds = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
@@ -24,7 +28,10 @@ class Actor
      */
     void update()
     {
-
+        if(spriteSheet != null)
+        {
+            spriteSheet.update();
+        }
     }
 
     /**
@@ -32,9 +39,15 @@ class Actor
      */
     void draw()
     {
-        if(sprite == null) { return; }
+        if(sprite != null)
+        {
+            image(sprite, position.x, position.y);
+        }
 
-        image(sprite, position.x, position.y);
+        if(spriteSheet != null)
+        {
+            spriteSheet.draw(position.x, position.y);
+        }
 
         // Draw some debug lines
         if(DEBUG)
