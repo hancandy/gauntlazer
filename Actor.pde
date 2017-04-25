@@ -103,4 +103,20 @@ class Actor
     {
         return position.y + bounds.y + bounds.height;
     }
+
+    /**
+     * Get the calculated center X position
+     */
+    float getCenterX()
+    {
+        return position.x + bounds.x + bounds.width / 2;
+    }
+    
+    /**
+     * Get the calculated center Y position
+     */
+    float getCenterY()
+    {
+        return position.y + bounds.y + bounds.height / 2;
+    }
 }

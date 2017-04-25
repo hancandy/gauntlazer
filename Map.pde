@@ -35,6 +35,10 @@ class Map
                       actor = new Key();
                       break;
                     
+                    case 8: // Character
+                      actor = new Character();
+                      break;
+                    
                     case 9: // Player
                       actor = new Player();
                       break;
@@ -47,14 +51,14 @@ class Map
                 actor.position.x = x * TILE_SIZE;
                 actor.position.y = y * TILE_SIZE;
 
-                // Add the Players to the bottom of the list
-                if(actor instanceof Player)
+                // Add the Pawns to the bottom of the list
+                if(actor instanceof Pawn)
                 {
                     actors.add(actor);
                 }
 
                 // Add all other Actors in the beginning,
-                // so they will be drawn first (behind the Players)
+                // so they will be drawn first (behind the Pawns)
                 else
                 {
                     actors.add(0, actor);
@@ -121,43 +125,6 @@ class Map
 
             // Check if this Actor has any collisions
             checkCollisions(actor);
-
-            // Check Player's position in relation to camera
-            if(actor instanceof Player)
-            {
-                // Right    
-                if(actor.getXMax() > cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
-                {
-                    moveCamera(1, 0);
-                }
-                
-                // Left
-                if(actor.getXMin() < cameraPosition.x + CAMERA_MARGIN)
-                {
-                    moveCamera(-1, 0);
-                }
-                
-                // Top    
-                if(actor.getYMax() > cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
-                {
-                    moveCamera(0, 1);
-                }
-                
-                // Bottom
-                if(actor.getYMin() < cameraPosition.y + CAMERA_MARGIN)
-                {
-                    moveCamera(0, -1);
-                }
-            }
-
-            // Check Projectile lifetime
-            if(actor instanceof Projectile)
-            {
-                if(actor.lifetime > PROJECTILE_LIFETIME)
-                {
-                    actors.remove(i);
-                }
-            }
         }
     }
 

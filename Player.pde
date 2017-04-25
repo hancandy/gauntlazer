@@ -3,8 +3,13 @@
  */
 class Player extends Pawn
 {
+    // The Player index
     int index = 0;
+
+    // Ammunitions
     int ammo = 100;
+
+    // Amount of keys held by this Player
     int keyAmount = 0;
 
     // Timers
@@ -29,18 +34,21 @@ class Player extends Pawn
      */
     Player()
     {
-        // Assign the Player number
+        // Assign the Player index number, which starts from 0
         index = playerCount;
 
-        // Set the collision bounds just a tiny bit smaller than default
+        // Set the collision bounds just a tiny bit smaller than default,
+        // so the Player can fit through Doors a little better
         bounds = new Rectangle(2, 4, TILE_SIZE - 4, TILE_SIZE - 4);
 
-        // Load sprite sheet
-        spriteSheet = new SpriteSheet("Assets/Textures/T_Player_" + str(index + 1) + ".png");
+        // Load sprite sheet based on index
+        // We're starting from 1 in the filename, so add 1 to the index
+        initSpriteSheet("Assets/Textures/T_Player_" + str(index + 1) + ".png");
 
         // Assign settings
         canUpdate = true;
         hasInput = true;
+        isBlocking = true;
         checkCollisions = true;
 
         // Set different controls for different players
@@ -63,53 +71,6 @@ class Player extends Pawn
                 break;
         }
         
-        // Register animations
-        spriteSheet.addAnimation("IdleDown", new Rectangle[] {
-            new Rectangle(0, 0, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("IdleLeft", new Rectangle[] {
-            new Rectangle(0, 16, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("IdleRight", new Rectangle[] {
-            new Rectangle(0, 32, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("IdleUp", new Rectangle[] {
-            new Rectangle(0, 48, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("WalkDown", new Rectangle[] {
-            new Rectangle(16, 0, 16, 16),
-            new Rectangle(0, 0, 16, 16),
-            new Rectangle(32, 0, 16, 16),
-            new Rectangle(0, 0, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("WalkLeft", new Rectangle[] {
-            new Rectangle(16, 16, 16, 16),
-            new Rectangle(0, 16, 16, 16),
-            new Rectangle(32, 16, 16, 16),
-            new Rectangle(0, 16, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("WalkRight", new Rectangle[] {
-            new Rectangle(16, 32, 16, 16),
-            new Rectangle(0, 32, 16, 16),
-            new Rectangle(32, 32, 16, 16),
-            new Rectangle(0, 32, 16, 16)
-        }, true);
-        
-        spriteSheet.addAnimation("WalkUp", new Rectangle[] {
-            new Rectangle(16, 48, 16, 16),
-            new Rectangle(0, 48, 16, 16),
-            new Rectangle(32, 48, 16, 16),
-            new Rectangle(0, 48, 16, 16)
-        }, true);
-
-        spriteSheet.play("IdleDown");
-
         // Increment Player amount
         playerCount++;
     }
@@ -131,13 +92,11 @@ class Player extends Pawn
      */
     void update()
     {
+        // Update the Pawn, that this Player inherits from, first
         super.update();
 
         // Decrement shoot timer
         if(shootTimer > 0) { shootTimer -= game.deltaTime; }
-
-        // Perform movement
-        move();
 
         // Reset velocity to 0
         velocity.x = 0; 
@@ -151,33 +110,30 @@ class Player extends Pawn
 
         // Update weapon firing
         if(isShootPressed) { shoot(); }
-
-        // Play down animation
-        if(direction.y > 0)
+            
+        // Check Player's position in relation to camera
+        // Right    
+        if(getXMax() > game.currentMap.cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
         {
-            if(velocity.y > 0) { spriteSheet.play("WalkDown"); }
-            else { spriteSheet.play("IdleDown"); }
+            game.currentMap.moveCamera(1, 0);
         }
         
-        // Play up animation
-        else if(direction.y < 0)
+        // Left
+        if(getXMin() < game.currentMap.cameraPosition.x + CAMERA_MARGIN)
         {
-            if(velocity.y < 0) { spriteSheet.play("WalkUp"); }
-            else { spriteSheet.play("IdleUp"); }
+            game.currentMap.moveCamera(-1, 0);
         }
         
-        // Play left animation
-        else if(direction.x < 0)
+        // Top    
+        if(getYMax() > game.currentMap.cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
         {
-            if(velocity.x < 0) { spriteSheet.play("WalkLeft"); }
-            else { spriteSheet.play("IdleLeft"); }
+            game.currentMap.moveCamera(0, 1);
         }
         
-        // Play right animation
-        else if(direction.x > 0)
+        // Bottom
+        if(getYMin() < game.currentMap.cameraPosition.y + CAMERA_MARGIN)
         {
-            if(velocity.x > 0) { spriteSheet.play("WalkRight"); }
-            else { spriteSheet.play("IdleRight"); }
+            game.currentMap.moveCamera(0, -1);
         }
     }
 

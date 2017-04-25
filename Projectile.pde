@@ -44,6 +44,12 @@ class Projectile extends Actor
         // Fly along the indicated direction
         position.x += direction.x * PROJECTILE_SPEED * game.deltaTime;
         position.y += direction.y * PROJECTILE_SPEED * game.deltaTime;
+
+        // Check Projectile lifetime
+        if(lifetime > PROJECTILE_LIFETIME)
+        {
+            game.currentMap.destroy(this);
+        }
     }
 
     /**
@@ -61,18 +67,24 @@ class Projectile extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
-        // If the collided Actor is blocking, destroy this projectile
-        if(other.isBlocking) {
-            game.currentMap.destroy(this);
-            return;
-        }
+        // Projectiles don't collide with Players
+        if(other instanceof Player) { return; }
 
         // If the collided Actor is a Character, hurt them
         if(other instanceof Character)
         {
             Character character = (Character)other;
 
-            character.takeDamage(damage);
+            character.takeDamage(damage, this);
+            game.currentMap.destroy(this);
+            return;
         }
+        
+        // If the collided Actor is blocking, destroy this projectile
+        if(other.isBlocking) {
+            game.currentMap.destroy(this);
+            return;
+        }
+
     }
 }

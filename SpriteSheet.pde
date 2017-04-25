@@ -29,9 +29,16 @@ class SpriteSheet
     // The temporary image that holds the current Animation frame
     PImage currentAnimationImage = new PImage();
 
+    // The timer that keeps track of when to play the next frame
     float frameTimer = 0;
+
+    // The current frame index
     int currentAnimationFrame = 0;
+
+    // The current animation object
     Animation currentAnimation = null;
+
+    // The list of vailable animations
     ArrayList<Animation> animations = new ArrayList<Animation>();
 
     /**
@@ -56,16 +63,16 @@ class SpriteSheet
             return;
         } 
 
-        // What to do when the current animation frame exceeded available frames
+        // What to do when the current animation frame exceeds available frames
         if(currentAnimationFrame >= currentAnimation.frames.length)
         {
-            // If it's looping, set the frame back to 0
+            // If the current Animation is looping, set the frame back to 0
             if(currentAnimation.canLoop)
             {
                 currentAnimationFrame = 0;
             }
 
-            // If not, make sure it stays below the amount of frames in the current Animation
+            // If not, make sure it stays below the amount of available frames
             else
             {
                 currentAnimationFrame = currentAnimation.frames.length - 1;
@@ -74,16 +81,25 @@ class SpriteSheet
 
         // Reset the frame timer
         frameTimer = SPRITE_SHEET_FRAME_DELAY;
-        
-        // Extract image rectangle from source
-        Rectangle frame = currentAnimation.frames[currentAnimationFrame];
-
-        // Assign the extracted image rectangle to the displayed image
-        currentAnimationImage = sourceImage.get(frame.x, frame.y, frame.width, frame.height);
+       
+        // Update image
+        updateImage(); 
         
         // Increment the animation frame for the next time we reach this point
         currentAnimationFrame++;
 
+    }
+
+    /**
+     * Updates the display image with the appropriate data
+     */
+    void updateImage()
+    {
+        // Extract frame image rectangle from source
+        Rectangle frame = currentAnimation.frames[currentAnimationFrame];
+
+        // Assign the extracted image rectangle to the displayed image
+        currentAnimationImage = sourceImage.get(frame.x, frame.y, frame.width, frame.height);
     }
 
     /**
@@ -108,6 +124,9 @@ class SpriteSheet
                 
                 // Assign new animation
                 currentAnimation = animations.get(i);
+
+                // Update the image
+                updateImage();
             }
         }
     }

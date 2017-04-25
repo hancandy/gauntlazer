@@ -14,12 +14,100 @@ class Pawn extends Actor
     void update()
     {
         super.update();
+
+        move();
+
+        // Play down animation
+        if(direction.y > 0)
+        {
+            if(velocity.y > 0) { spriteSheet.play("WalkDown"); }
+            else { spriteSheet.play("IdleDown"); }
+        }
+        
+        // Play up animation
+        else if(direction.y < 0)
+        {
+            if(velocity.y < 0) { spriteSheet.play("WalkUp"); }
+            else { spriteSheet.play("IdleUp"); }
+        }
+        
+        // Play left animation
+        else if(direction.x < 0)
+        {
+            if(velocity.x < 0) { spriteSheet.play("WalkLeft"); }
+            else { spriteSheet.play("IdleLeft"); }
+        }
+        
+        // Play right animation
+        else if(direction.x > 0)
+        {
+            if(velocity.x > 0) { spriteSheet.play("WalkRight"); }
+            else { spriteSheet.play("IdleRight"); }
+        }
+    }
+
+    /**
+     * Initialises the sprite sheet and registers all animations
+     */
+    void initSpriteSheet(String path)
+    {
+        spriteSheet = new SpriteSheet(path);
+        
+        spriteSheet.addAnimation("Dead", new Rectangle[] {
+            new Rectangle(48, 0, 16, 16)
+        }, true);
+
+        spriteSheet.addAnimation("IdleDown", new Rectangle[] {
+            new Rectangle(0, 0, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("IdleLeft", new Rectangle[] {
+            new Rectangle(0, 16, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("IdleRight", new Rectangle[] {
+            new Rectangle(0, 32, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("IdleUp", new Rectangle[] {
+            new Rectangle(0, 48, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("WalkDown", new Rectangle[] {
+            new Rectangle(16, 0, 16, 16),
+            new Rectangle(0, 0, 16, 16),
+            new Rectangle(32, 0, 16, 16),
+            new Rectangle(0, 0, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("WalkLeft", new Rectangle[] {
+            new Rectangle(16, 16, 16, 16),
+            new Rectangle(0, 16, 16, 16),
+            new Rectangle(32, 16, 16, 16),
+            new Rectangle(0, 16, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("WalkRight", new Rectangle[] {
+            new Rectangle(16, 32, 16, 16),
+            new Rectangle(0, 32, 16, 16),
+            new Rectangle(32, 32, 16, 16),
+            new Rectangle(0, 32, 16, 16)
+        }, true);
+        
+        spriteSheet.addAnimation("WalkUp", new Rectangle[] {
+            new Rectangle(16, 48, 16, 16),
+            new Rectangle(0, 48, 16, 16),
+            new Rectangle(32, 48, 16, 16),
+            new Rectangle(0, 48, 16, 16)
+        }, true);
+
+        spriteSheet.play("IdleDown");
     }
 
     /**
      * Takes damage
      */
-    void takeDamage(int amount)
+    void takeDamage(int amount, Actor actor)
     {
         health -= amount;
 
@@ -34,6 +122,8 @@ class Pawn extends Actor
      */
     void die()
     {
+        spriteSheet.play("Dead");
+
         canUpdate = false;
     }
 
@@ -75,12 +165,40 @@ class Pawn extends Actor
     {
         if(!other.isBlocking) { return; }
 
-        // If the intersection happened above or below the pawn, set vertical velocity to 0
-        if(intersection.y < position.y + bounds.height / 2 && velocity.y < 0) { velocity.y = 0; }
-        if(intersection.y > position.y + bounds.height / 2 && velocity.y > 0) { velocity.y = 0; }
-
-        // If the intersection happened to the left or right of the pawn, set vertical velocity to 0
-        if(intersection.x < position.x + bounds.width / 2 && velocity.x < 0) { velocity.x = 0; }
-        if(intersection.x > position.x + bounds.width / 2 && velocity.x > 0) { velocity.x = 0; }
+        // Intersection happened above or below the pawn
+        if(intersection.width > intersection.height)
+        {
+            // Prevent movement if...
+            if(
+                // ...the intersection is above the pawn,
+                // and they're trying to move upward
+                (intersection.getCenterY() < getCenterY() && velocity.y < 0) ||
+                
+                // ...the intersection is below the pawn,
+                // and they're trying to move downward
+                (intersection.getCenterY() > getCenterY() && velocity.y > 0)
+            )
+            {
+                velocity.y = 0;
+            }
+        }
+        
+        // Intersection happened to the left or right of the pawn
+        else if(intersection.width < intersection.height)
+        {
+            // Prevent movement if...
+            if(
+                // ...the intersection is to the left of the pawn,
+                // and they're trying to move towards the left
+                (intersection.getCenterX() < getCenterX() && velocity.x < 0) ||
+                
+                // ...the intersection is to the right of the pawn,
+                // and they're trying to move rowards the right
+                (intersection.getCenterX() > getCenterX() && velocity.x > 0)
+            )
+            {
+                velocity.x = 0;
+            }
+        }
     }
 }
