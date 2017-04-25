@@ -17,6 +17,27 @@ class Pawn extends Actor
     }
 
     /**
+     * Takes damage
+     */
+    void takeDamage(int amount)
+    {
+        health -= amount;
+
+        if(health <= 0)
+        {
+            die();
+        }
+    }
+
+    /**
+     * Die
+     */
+    void die()
+    {
+        canUpdate = false;
+    }
+
+    /**
      * Applies velocity to the Pawn's position
      */
     void move()

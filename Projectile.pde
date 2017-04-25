@@ -4,6 +4,7 @@
 class Projectile extends Actor
 {
     PVector direction = new PVector(0, 0);
+    int damage = 50;
 
     /**
      * Constructor
@@ -60,9 +61,18 @@ class Projectile extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
+        // If the collided Actor is blocking, destroy this projectile
         if(other.isBlocking) {
             game.currentMap.destroy(this);
             return;
+        }
+
+        // If the collided Actor is a Character, hurt them
+        if(other instanceof Character)
+        {
+            Character character = (Character)other;
+
+            character.takeDamage(damage);
         }
     }
 }
