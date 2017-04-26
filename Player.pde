@@ -14,6 +14,10 @@ class Player extends Pawn
 
     // Timers
     float shootTimer = 0;
+    
+    // How many seconds in between taking damage?
+    float damageDelay = 1.0;
+    float damageTimer = 0;
 
     // Button states
     boolean isShootPressed = false;
@@ -135,7 +139,29 @@ class Player extends Pawn
         {
             game.currentMap.moveCamera(0, -1);
         }
+
+        // Update the damage timer
+        if(damageTimer > 0)
+        {
+            damageTimer -= game.deltaTime;
+        }
     }
+    
+    /**
+     * Takes damage
+     */
+    void takeDamage(int amount, Actor actor)
+    {
+        // If damage timer is not yet ready, cancel
+        if(damageTimer > 0) { return; }
+
+        // Let the Pawn handle taking damage
+        super.takeDamage(amount, actor);
+
+        // Reset the damage timer
+        damageTimer = damageDelay;
+    }
+
 
     /**
      * Shoots a weapon

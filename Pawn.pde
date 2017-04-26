@@ -125,6 +125,7 @@ class Pawn extends Actor
         spriteSheet.play("Dead");
 
         canUpdate = false;
+        checkCollisions = false;
     }
 
     /**

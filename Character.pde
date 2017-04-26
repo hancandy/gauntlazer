@@ -9,10 +9,6 @@ class Character extends Pawn
     // How much damage does this character deal?
     int damage = 25;
 
-    // How many seconds in between dealing damage?
-    float damageDelay = 1.0;
-    float damageTimer = 0;
-
     /**
      * Constructor
      */
@@ -100,12 +96,6 @@ class Character extends Pawn
 
         // Find and folow the nearest Player
         followNearestPlayer();
-
-        // Update the damage timer
-        if(damageTimer > 0)
-        {
-            damageTimer -= game.deltaTime;
-        }
     }
 
     /**
@@ -116,9 +106,6 @@ class Character extends Pawn
         // Call collision event in Pawn first
         super.onCollision(other, intersection);
 
-        // If damage timer is not yet ready, cancel
-        if(damageTimer > 0) { return; }
-
         // Check if the Character hit a Player
         if(other instanceof Player)
         {
@@ -127,9 +114,6 @@ class Character extends Pawn
 
             // Inflict damage upon the player
             player.takeDamage(damage, this);
-
-            // Reset the damage timer
-            damageTimer = damageDelay;
         }
     }
 }
