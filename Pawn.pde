@@ -166,7 +166,8 @@ class Pawn extends Actor
     {
         if(!other.isBlocking) { return; }
 
-        // Intersection happened above or below the pawn
+        // Intersection happened above or below the pawn,
+        // because the intersection rectangle was wider than it was tall
         if(intersection.width > intersection.height)
         {
             // Prevent movement if...
@@ -184,7 +185,8 @@ class Pawn extends Actor
             }
         }
         
-        // Intersection happened to the left or right of the pawn
+        // Intersection happened to the left or right of the pawn,
+        // because the intersection rectangle was taller than it was wide
         else if(intersection.width < intersection.height)
         {
             // Prevent movement if...
