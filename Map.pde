@@ -34,9 +34,13 @@ class Map
                     case 3: // Key
                       actor = new Key();
                       break;
+                      
+                    case 4: //Treasure
+                      actor = new Treasure();
+                      break;
                     
-                    case 8: // Character
-                      actor = new Character();
+                    case 8: // Ghoul
+                      actor = new Ghoul();
                       break;
                     
                     case 9: // Player

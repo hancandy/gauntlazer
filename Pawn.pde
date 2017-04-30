@@ -13,6 +13,8 @@ class Pawn extends Actor
      */
     void update()
     {
+        if(spriteSheet == null) { return; }
+      
         super.update();
 
         move();

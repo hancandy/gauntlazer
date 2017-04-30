@@ -11,6 +11,9 @@ class Player extends Pawn
 
     // Amount of keys held by this Player
     int keyAmount = 0;
+    
+    // Amount of gold held by this Player
+    int treasureAmount = 0;
 
     // Timers
     float shootTimer = 0;

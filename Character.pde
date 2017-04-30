@@ -24,8 +24,6 @@ class Character extends Pawn
         canUpdate = true;
         isBlocking = true;
         checkCollisions = true;
-        
-        initSpriteSheet("Assets/Textures/T_Character.png");
     }
 
     /**

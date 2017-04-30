@@ -1,10 +1,21 @@
 /**
  * The main game logic
  */
+enum GameState
+{
+     Playing,
+     StartGame,
+     WinLevel,
+     GameOver,
+     WinGame
+}
+    
 class Game
 {
     Map currentMap;
     int lastMillis = 0;
+    
+    GameState state;
 
     float timeScale = 1.0;
     float deltaTime = 0.0;

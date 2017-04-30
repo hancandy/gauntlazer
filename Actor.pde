@@ -1,5 +1,5 @@
 /**
- * An actor is a base class for anything that appears visually on screen
+ * An actor is a base class for anything that appears inside the Map
  */
 class Actor
 {
@@ -10,8 +10,8 @@ class Actor
     float lifetime = 0;
 
     // The rendereed image
-    PImage sprite;
-    SpriteSheet spriteSheet;
+    PImage sprite = null;
+    SpriteSheet spriteSheet = null;
 
     // Bounds for collision
     Rectangle bounds = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
