@@ -38,7 +38,19 @@ class Map
                     case 4: //Treasure
                       actor = new Treasure();
                       break;
-                    
+                      
+                    case 5: //Health
+                      actor = new Health();
+                      break;
+                      
+                    case 6: //Ammo
+                      actor = new Ammo();
+                      break;
+                      
+                    case 7: // Slime
+                      actor = new Slime();
+                      break;
+                      
                     case 8: // Ghoul
                       actor = new Ghoul();
                       break;
@@ -46,6 +58,10 @@ class Map
                     case 9: // Player
                       actor = new Player();
                       break;
+					  
+					case X: //Goal
+					  actor = new Goal();
+					  break;
                 }
 
                 // If no Actor was found, cancel
@@ -130,6 +146,8 @@ class Map
             // Check if this Actor has any collisions
             checkCollisions(actor);
         }
+	
+		
     }
 
     /**
@@ -194,6 +212,8 @@ class Map
 
             actors.get(i).draw();
         }
+        
+        translate(cameraPosition.x, cameraPosition.y);
     }
    
     /**

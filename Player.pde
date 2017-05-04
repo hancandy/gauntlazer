@@ -163,6 +163,7 @@ class Player extends Pawn
 
         // Reset the damage timer
         damageTimer = damageDelay;
+		
     }
 
 
@@ -190,4 +191,10 @@ class Player extends Pawn
         // Tell the Map to spawn a new projectile from the middle of the Player's avatar
         game.currentMap.spawnProjectile(new PVector(position.x + bounds.width / 2, position.y + bounds.height / 2), direction); 
     }
+	
+	void die()
+	{
+		super.die();
+		game.checkIfGameOver();
+	}
 }

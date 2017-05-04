@@ -14,7 +14,7 @@ class Character extends Pawn
      */
     Character()
     {
-        speed = 30;
+        
 
         // Set the collision bounds just a tiny bit smaller than default,
         // so the Character can fit through Doors a little better
