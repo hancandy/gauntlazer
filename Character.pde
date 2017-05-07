@@ -114,4 +114,11 @@ class Character extends Pawn
             player.takeDamage(damage, this);
         }
     }
+	
+	void die()
+	{
+		super.die();
+		
+		game.currentScore +=5;
+	}
 }

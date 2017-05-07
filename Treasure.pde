@@ -29,5 +29,8 @@ class Treasure extends Item
         
         // Destroy this Key
         game.currentMap.destroy(this);
+		
+		// Add score
+		game.currentScore +=10;
     }
 }

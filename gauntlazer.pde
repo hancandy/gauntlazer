@@ -1,4 +1,5 @@
 import java.awt.Rectangle;
+import java.util.Collections;
 
 // Constants
 final boolean DEBUG = false;
@@ -18,7 +19,7 @@ final int F = 0;
 final int X = 11;
 
 // Globals
-Game game = new Game();
+Game game;
 int playerCount = 0;
 
 /**
@@ -36,6 +37,7 @@ void setup()
     frameRate(60);
 
     // Start game
+	game = new Game();
 	game.reload();
   
 }

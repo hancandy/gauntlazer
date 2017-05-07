@@ -7,12 +7,48 @@ enum GameState
      StartGame,
      WinLevel,
      GameOver,
+	 ScoreBoard,
      WinGame
 }
-    
+class ScoreEntry implements Comparable
+	{
+		String name;
+		int score;
+		
+		ScoreEntry(String n, int s)
+		{
+			name = n;
+			score = s;
+		}
+		
+		int compareTo(Object o)
+		{
+			ScoreEntry other = (ScoreEntry)o;
+		  
+			if(other.score > score)
+			{
+			  return 1;
+			}
+			
+			if(other.score < score)
+			{
+			  return -1;
+			}
+			
+			return 0;
+		}
+	}
+	
+	
 class Game
 {
-    Map currentMap;
+	
+    
+	Map currentMap;
+	ArrayList<ScoreEntry> scoreEntries = new ArrayList<ScoreEntry>();
+	String scoreInput = "";
+	int currentScore = 0;
+	
 	int currentMapIndex = 1;
     int lastMillis = 0;
     
@@ -22,6 +58,18 @@ class Game
 
     float timeScale = 1.0;
     float deltaTime = 0.0;
+	
+	Game()
+	{
+		String[] strings = loadStrings("score.csv");
+		
+		for(int i = 0; i < strings.length; i++)
+		{
+			String[] info = strings[i].split(",");
+			
+			scoreEntries.add(new ScoreEntry(info[0], int(info[1])));
+		}
+	}
 
     /**
      * Updates the currently loaded Map

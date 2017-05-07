@@ -7,6 +7,7 @@ class UI
 	 */ 
 	void inputKey(int code, boolean isPressed)
 	{
+		if (!isPressed){return;}
 		switch(game.state)
 		{
 			case StartGame:
@@ -17,6 +18,45 @@ class UI
 				game.currentMapIndex++;
 				game.reload();
 				break;
+			case GameOver: case WinGame:
+					//add character in name entry
+					if (((key >= 'a' && key <= 'z')||(key >='A' && key<= 'Z')) )
+				  {
+					game.scoreInput+= key;
+				  }
+				  //remove character in name entry
+				  if (key == BACKSPACE && game.scoreInput.length()!=0 )
+				  {
+					game.scoreInput = game.scoreInput.substring(0, game.scoreInput.length() - 1);
+				  }
+				  
+				  if (key == ENTER)
+				  {
+					game.state = GameState.ScoreBoard;
+					game.scoreEntries.add(new ScoreEntry(game.scoreInput, game.currentScore));
+					java.util.Collections.sort(game.scoreEntries);
+					
+					// Save all scores to file
+					PrintWriter output = createWriter("score.csv");
+					String scoreString = "";
+					
+					for (int i=0; i<game.scoreEntries.size(); i++)
+					{				
+						scoreString += game.scoreEntries.get(i).name + "," + game.scoreEntries.get(i).score + "\n";
+					}
+					
+					output.println(scoreString);
+					
+					output.flush();  // Writes the remaining data to the file
+					output.close();  // Finishes the file
+				  }
+				  break;
+				  
+			case ScoreBoard:
+				game.reload();
+				game.currentMapIndex =1;
+				break;
+
 		}
 	}
 
@@ -76,17 +116,31 @@ class UI
 	  text("Press any key to continue", 100,150);
 	  break;
 
-    case GameOver:
+    case GameOver: case WinGame:
 	  textSize(12);
-	  text("Game Over", 100,120);
-	  text("Press any key to restart", 100,150);
+	  text("Game Over", 100,80);
+	  textSize(8);
+	  text(game.scoreInput, 100,100);
+	  text("Press enter to continue", 100,120);
+	  
       break;
+	  
+	case ScoreBoard:
+		textSize(12);
+		text("Score Board", 100,50);
+		for (int i=0 ; i<game.scoreEntries.size() ; i++)
+		{
+			if (i>=9){break;} 
+			text(game.scoreEntries.get(i).name + " " + game.scoreEntries.get(i).score, 50,100+i*10);
+		}
+		text("Press any key to restart", 100,80);
+		break;
+		
 
-    case WinGame:
-	  textSize(12);
-	  text("You Won", 100,120);
-	  text("Press any key to return to game", 100,150);
-      break;
     }
+	
+
   }
+  
+  
 }
