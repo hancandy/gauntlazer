@@ -253,9 +253,9 @@ class Map
     /**
      * Spawns a projectile
      */
-    void spawnProjectile(PVector position, PVector direction)
+    void spawnProjectile(PVector position, PVector direction, int da)
     {
-        Projectile p = new Projectile(position, direction);
+        Projectile p = new Projectile(position, direction,da);
 
         actors.add(p);
     }

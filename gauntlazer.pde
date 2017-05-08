@@ -11,7 +11,6 @@ final PVector SCREEN_SIZE = new PVector(320, 240);
 
 final float SPRITE_SHEET_FRAME_DELAY = 0.15;
 
-final float SHOOT_DELAY = 0.2;
 final float PROJECTILE_SPEED = 200;
 final float PROJECTILE_LIFETIME = 1;
 

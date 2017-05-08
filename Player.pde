@@ -3,7 +3,11 @@
  */
 class Player extends Pawn
 {
-    // The Player index
+    //New: player shoot delay
+	float ShootDelay = 0.2;
+	int playerDamage ;
+	
+	// The Player index
     int index = 0;
 
     // Ammunitions
@@ -58,7 +62,7 @@ class Player extends Pawn
         isBlocking = true;
         checkCollisions = true;
 
-        // Set different controls for different players
+        // Set values for different players
         switch(index)
         {
             case 0:
@@ -67,6 +71,10 @@ class Player extends Pawn
                 leftKey = 65; // A
                 rightKey = 68; // D
                 shootKey = 16; // Left shift
+				// Player 1 shoots faster but due less damage
+				ShootDelay = 0.1;
+				playerDamage = 10;
+				
                 break;
 
             case 1:
@@ -75,6 +83,8 @@ class Player extends Pawn
                 leftKey = LEFT;
                 rightKey = RIGHT;
                 shootKey = 96; // Numpad 0
+				ShootDelay = 0.2;
+				playerDamage = 20;
                 break;
 				
 			case 2:
@@ -83,6 +93,8 @@ class Player extends Pawn
 				leftKey = 74; //J
 				rightKey = 76;//L
 				shootKey = 77; //M
+				ShootDelay = 0.4;
+				playerDamage = 40;
 				break;
 				
         }
@@ -195,10 +207,10 @@ class Player extends Pawn
         ammo--;
 
         // Set the shoot timer back to the delay
-        shootTimer = SHOOT_DELAY;
+        shootTimer = ShootDelay;
 
         // Tell the Map to spawn a new projectile from the middle of the Player's avatar
-        game.currentMap.spawnProjectile(new PVector(position.x + bounds.width / 2, position.y + bounds.height / 2), direction); 
+        game.currentMap.spawnProjectile(new PVector(position.x + bounds.width / 2, position.y + bounds.height / 2), direction, playerDamage); 
     }
 	
 	void die()

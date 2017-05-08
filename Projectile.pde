@@ -4,12 +4,13 @@
 class Projectile extends Actor
 {
     PVector direction = new PVector(0, 0);
-    int damage = 50;
+    int damage;
+	
 
     /**
      * Constructor
      */
-    Projectile(PVector p, PVector d)
+    Projectile(PVector p, PVector d, int da)
     {
         // Set initial position
         position.x = p.x;
@@ -18,6 +19,9 @@ class Projectile extends Actor
         // Set initial direction
         direction.x = d.x;
         direction.y = d.y;
+		
+		// Set damage
+		damage = da;
 
         // Make sure it updates and checks for collisions
         canUpdate = true;
