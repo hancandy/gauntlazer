@@ -38,6 +38,9 @@ class SpriteSheet
     // The current animation object
     Animation currentAnimation = null;
 
+    // The speed with which this SpriteSheet plays
+    float speed = 1.0;
+
     // The list of vailable animations
     ArrayList<Animation> animations = new ArrayList<Animation>();
 
@@ -80,7 +83,7 @@ class SpriteSheet
         }
 
         // Reset the frame timer
-        frameTimer = SPRITE_SHEET_FRAME_DELAY;
+        frameTimer = SPRITE_SHEET_FRAME_DELAY / speed;
        
         // Update image
         updateImage(); 
@@ -107,8 +110,14 @@ class SpriteSheet
      */
     void play(String name)
     {
-        // We're trying to start the same Animation as we're already playing, cancel
-        if(currentAnimation != null && name == currentAnimation.name) { return; }
+        play(name, false);
+    }
+
+    void play(String name, boolean reset)
+    {
+        // We're trying to start the same Animation as we're already playing,
+        // and we're not explicitly resetting the animation, cancel
+        if(!reset && currentAnimation != null && name == currentAnimation.name) { return; }
 
         // Find Animation by name
         for(int i = 0; i < animations.size(); i++)

@@ -12,6 +12,8 @@ class Pawn extends Actor
     AmmoType ammoType = AmmoType.None;
     int ammo = 100;
     
+    SpriteSheet blood = null;
+    
     // Timers
     float shootTimer = 0;
     
@@ -56,6 +58,8 @@ class Pawn extends Actor
 
         move();
         animate();
+
+        blood.update();
     }
 
     /**
@@ -95,10 +99,40 @@ class Pawn extends Actor
     }
 
     /**
+     * Draws this Pawn
+     */
+    void draw()
+    {
+        super.draw();
+
+        blood.draw(position.x, position.y);
+    }
+
+    /**
      * Initialises the sprite sheet and registers all animations
      */
     void initSpriteSheet(String path)
     {
+        // Blood sprite sheet
+        blood = new SpriteSheet("Assets/Textures/T_Blood.png");
+
+        blood.speed = 4.0;
+
+        blood.addAnimation("Splat", new Rectangle[] {
+            new Rectangle(0, 0, 16, 16),
+            new Rectangle(16, 0, 16, 16),
+            new Rectangle(32, 0, 16, 16),
+            new Rectangle(48, 0, 16, 16),
+            new Rectangle(0, 16, 16, 16),
+            new Rectangle(16, 16, 16, 16),
+            new Rectangle(32, 16, 16, 16),
+            new Rectangle(48, 16, 16, 16),
+            new Rectangle(0, 32, 16, 16),
+            new Rectangle(16, 32, 16, 16),
+            new Rectangle(32, 32, 16, 16)
+        }, false);
+
+        // Main sprite sheet
         spriteSheet = new SpriteSheet(path);
         
         spriteSheet.addAnimation("Dead", new Rectangle[] {
@@ -157,6 +191,8 @@ class Pawn extends Actor
      */
     void takeDamage(int amount, Actor actor)
     {
+        blood.play("Splat", true); 
+
         health -= amount;
 
         if(health <= 0)
