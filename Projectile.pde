@@ -1,54 +1,50 @@
 /**
- * A an object type for killing bad guys
+ * A an object type for killing Actors
  */
- 
- // new: ammo type
- 	enum AmmoType
-	{
-		P1,
-		P2,
-		P3
-	}
+enum AmmoType
+{
+    None,
+    P1,
+    P2,
+    P3
+}
+
 class Projectile extends Actor
 {
+    Pawn instigator;
     PVector direction = new PVector(0, 0);
     int damage;
-	AmmoType ammoType ;
-
 
     /**
      * Constructor
      */
-    Projectile(PVector p, PVector d, AmmoType a)
+    Projectile(Pawn ins)
     {
-        // Set initial position
-        position.x = p.x;
-        position.y = p.y;
+        instigator = ins;
+ 
+        // Adopt position and direction from instigator 
+        position = new PVector(instigator.getCenterX(), instigator.getCenterY());
+        direction = new PVector(instigator.direction.x, instigator.direction.y);
+        
+        // Set ammo type
+        switch(instigator.ammoType)
+        {
+            case P1:
+                damage = 10;
+                sprite = loadImage("Assets/Textures/P1.png");
+                break;
 
-        // Set initial direction
-        direction.x = d.x;
-        direction.y = d.y;
-		
-		// New : Set ammo property
-		ammoType = a;
-		switch(ammoType)
-		{
-			case P1:
-			damage = 10;
-			sprite = loadImage("Assets/Textures/P1.png");
-			break;
-			
-			case P2:
-			damage = 20;
-			sprite = loadImage("Assets/Textures/P2.png");
-			break;
-			
-			case P3:
-			damage = 30;
-			sprite = loadImage("Assets/Textures/P3.png");
-			break;
-		}
-		
+            case P2:
+                damage = 20;
+                sprite = loadImage("Assets/Textures/P2.png");
+                break;
+
+            case P3:
+                damage = 30;
+                sprite = loadImage("Assets/Textures/P3.png");
+                break;
+        }
+
 
         // Make sure it updates and checks for collisions
         canUpdate = true;
@@ -88,28 +84,7 @@ class Projectile extends Actor
      */
     void draw()
     {
-        //new : ammo typede
-		image(sprite, position.x, position.y);
-		/**switch(ammoType)
-		*{
-			case P1:
-				fill(255, 0, 0);
-				noStroke();
-				rect(position.x, position.y, bounds.width, bounds.height);
-				break;
-			case P2:
-				fill(0, 255, 0);
-				noStroke();
-				rect(position.x, position.y, bounds.width, bounds.height);
-				break;
-			case P3:
-				fill(0, 0, 255);
-				noStroke();
-				rect(position.x, position.y, bounds.width, bounds.height);
-				break;
-		}
-		*/
-
+        image(sprite, position.x, position.y);
     }
 
     /**
@@ -117,19 +92,22 @@ class Projectile extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
-        // Projectiles don't collide with Players
-        if(other instanceof Player) { return; }
+        // Projectiles don't collide with other Pawns of same type
+        if(
+            (instigator instanceof Player && other instanceof Player) ||
+            (instigator instanceof Character && other instanceof Character)
+        ) { return; }
 
-        // If the collided Actor is a Character, hurt them
-        if(other instanceof Character)
+        // If the collided Actor is a Pawn, hurt them
+        if(other instanceof Pawn)
         {
-            Character character = (Character)other;
+            Pawn pawn = (Pawn)other;
 
-            character.takeDamage(damage, this);
+            pawn.takeDamage(damage, this);
             game.currentMap.destroy(this);
             return;
         }
-        
+
         // If the collided Actor is blocking, destroy this projectile
         if(other.isBlocking) {
             game.currentMap.destroy(this);

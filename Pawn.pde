@@ -7,18 +7,64 @@ class Pawn extends Actor
     int health = 100;
     PVector velocity = new PVector(0, 0);
     PVector direction = new PVector(0, 1);
+    
+    float shootDelay = 1;
+    AmmoType ammoType = AmmoType.None;
+    int ammo = 100;
+    
+    // Timers
+    float shootTimer = 0;
+    
+    /**
+     * Shoots a weapon
+     */
+    void shoot()
+    {
+        // Sanity check: If the Pawn doesn't use an ammo type, abort
+        if(ammoType == AmmoType.None) { return; }
+
+        // Make sure to reset ammo to 0 if it somehow got below
+        // Also, cancel if ammo is 0
+        if(ammo <= 0) {
+            ammo = 0;
+            return;
+        }
+
+        // Make sure the delay has been reached before allowing another shot
+        if(shootTimer > 0) { return; }
+
+        // Decrement ammunition
+        ammo--;
+
+        // Set the shoot timer back to the delay
+        shootTimer = shootDelay;
+
+        // Tell the Map to spawn a new projectile from the middle of the Pawn's avatar, and in the direction the Pawn is facing
+        game.currentMap.spawnProjectile(this);
+    }
+    
 
     /**
      * Update
      */
     void update()
     {
-        if(spriteSheet == null) { return; }
-      
+        // Decrement shoot timer
+        if(shootTimer > 0) { shootTimer -= game.deltaTime; }
+
         super.update();
 
         move();
+        animate();
+    }
 
+    /**
+     * Animates this Pawn
+     */
+    void animate()
+    {
+        if(spriteSheet == null) { return; }
+      
         // Play down animation
         if(direction.y > 0)
         {

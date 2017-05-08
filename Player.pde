@@ -3,24 +3,14 @@
  */
 class Player extends Pawn
 {
-    //New: player shoot delay
-	float ShootDelay = 0.2;
-	AmmoType ammoType ;
-	
-	// The Player index
+    // The Player index
     int index = 0;
-
-    // Ammunitions
-    int ammo = 100;
 
     // Amount of keys held by this Player
     int keyAmount = 0;
     
     // Amount of gold held by this Player
     int treasureAmount = 0;
-
-    // Timers
-    float shootTimer = 0;
     
     // How many seconds in between taking damage?
     float damageDelay = 1.0;
@@ -71,10 +61,8 @@ class Player extends Pawn
                 leftKey = 65; // A
                 rightKey = 68; // D
                 shootKey = 16; // Left shift
-				// Player 1 shoots faster but due less damage
-				ShootDelay = 0.1;
-				ammoType = AmmoType.P1;
-				
+                shootDelay = 0.1;
+                ammoType = AmmoType.P1;
                 break;
 
             case 1:
@@ -83,20 +71,20 @@ class Player extends Pawn
                 leftKey = LEFT;
                 rightKey = RIGHT;
                 shootKey = 96; // Numpad 0
-				ShootDelay = 0.2;
-				ammoType = AmmoType.P2;
+                shootDelay = 0.2;
+                ammoType = AmmoType.P2;
                 break;
-				
-			case 2:
-				upKey = 73; //I
-				downKey = 75; //K
-				leftKey = 74; //J
-				rightKey = 76;//L
-				shootKey = 77; //M
-				ShootDelay = 0.4;
-				ammoType = AmmoType.P3;
-				break;
-				
+                
+            case 2:
+                upKey = 73; //I
+                downKey = 75; //K
+                leftKey = 74; //J
+                rightKey = 76;//L
+                shootKey = 77; //M
+                shootDelay = 0.4;
+                ammoType = AmmoType.P3;
+                break;
+                
         }
         
         // Increment Player amount
@@ -122,9 +110,6 @@ class Player extends Pawn
     {
         // Update the Pawn, that this Player inherits from, first
         super.update();
-
-        // Decrement shoot timer
-        if(shootTimer > 0) { shootTimer -= game.deltaTime; }
 
         // Reset velocity to 0
         velocity.x = 0; 
@@ -184,38 +169,15 @@ class Player extends Pawn
 
         // Reset the damage timer
         damageTimer = damageDelay;
-		
+        
     }
-
 
     /**
-     * Shoots a weapon
+     * Death logic
      */
-    void shoot()
+    void die()
     {
-        // Make sure to reset ammo to 0 if it somehow got below
-        // Also, cancel if ammo is 0
-        if(ammo <= 0) {
-            ammo = 0;
-            return;
-        }
-
-        // Make sure the delay has been reached before allowing another shot
-        if(shootTimer > 0) { return; }
-
-        // Decrement ammunition
-        ammo--;
-
-        // Set the shoot timer back to the delay
-        shootTimer = ShootDelay;
-
-        // Tell the Map to spawn a new projectile from the middle of the Player's avatar
-        game.currentMap.spawnProjectile(new PVector(position.x + bounds.width / 2, position.y + bounds.height / 2), direction,ammoType); 
+        super.die();
+        game.checkIfGameOver();
     }
-	
-	void die()
-	{
-		super.die();
-		game.checkIfGameOver();
-	}
 }

@@ -9,13 +9,14 @@ class Character extends Pawn
     // How much damage does this character deal?
     int damage = 25;
 
+    // How far can this Character see?
+    float visionRange = 50;
+
     /**
      * Constructor
      */
     Character()
     {
-        
-
         // Set the collision bounds just a tiny bit smaller than default,
         // so the Character can fit through Doors a little better
         bounds = new Rectangle(2, 4, TILE_SIZE - 4, TILE_SIZE - 4);
@@ -46,7 +47,9 @@ class Character extends Pawn
                     // ...it's the only Player we've found
                     nearestPlayer == null ||
                     // ...or it's closer to the Character than the previous result
-                    position.dist(actor.position) < position.dist(nearestPlayer.position)
+                    position.dist(actor.position) < position.dist(nearestPlayer.position) &&
+                    // ...and it's within the vision range
+                    position.dist(actor.position) <= visionRange
                 )
                 {
                     // Cast the found Player
@@ -82,6 +85,9 @@ class Character extends Pawn
         
         if(player.position.y - position.y < -FOLLOW_MARGIN) { velocity.y = -1; }
         else if(player.position.y - position.y > FOLLOW_MARGIN) { velocity.y = 1; }
+    
+        // Shoot at the Player
+        shoot(); 
     }
 
     /**
@@ -114,11 +120,14 @@ class Character extends Pawn
             player.takeDamage(damage, this);
         }
     }
-	
-	void die()
-	{
-		super.die();
-		
-		game.currentScore +=5;
-	}
+
+    /**
+     * Death logic
+     */
+    void die()
+    {
+        super.die();
+
+        game.currentScore += 5;
+    }
 }
