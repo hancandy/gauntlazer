@@ -17,6 +17,10 @@ final float PROJECTILE_LIFETIME = 1;
 
 final int F = 0;
 final int X = 11;
+final int S = 12;
+final int G = 13;
+final int B = 14;
+final int W = 15;
 
 // Globals
 Game game;

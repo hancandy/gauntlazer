@@ -76,6 +76,15 @@ class Player extends Pawn
                 rightKey = RIGHT;
                 shootKey = 96; // Numpad 0
                 break;
+				
+			case 2:
+				upKey = 73; //I
+				downKey = 75; //K
+				leftKey = 74; //J
+				rightKey = 76;//L
+				shootKey = 77; //M
+				break;
+				
         }
         
         // Increment Player amount

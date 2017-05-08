@@ -58,11 +58,31 @@ class Map
                     case 9: // Player
                       actor = new Player();
                       break;
-					  
-					case X: //Goal
-					  actor = new Goal();
-					  break;
-                }
+                     
+///////////////////////////////////////////////ADD BY ALVARO
+                      
+                    case S: // Spider
+                      actor = new Spider();
+                      break;
+                      
+					          case B: // Bat
+                      actor = new Bat();
+                      break;
+                      
+                    case G: // Ghost
+                      actor = new Ghost();
+                      break;
+                      
+                    case W: //Water
+                      actor = new Water();
+                      break;
+////////////////////////////////////////////////////////////////
+                      
+          					case X: //Goal
+          					  actor = new Goal();
+          					  break;
+                          }
+                          
 
                 // If no Actor was found, cancel
                 if(actor == null) { continue; }

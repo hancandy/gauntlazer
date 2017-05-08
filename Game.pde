@@ -61,13 +61,22 @@ class Game
 	
 	Game()
 	{
+		// Create array of strings from the score file
 		String[] strings = loadStrings("score.csv");
 		
+		// For each line in the file, extract score data
 		for(int i = 0; i < strings.length; i++)
 		{
+			// Split the line into 2 substrings using the "," as a separator
+			// Substring 0 is the name
+			// Substring 1 is the score
 			String[] info = strings[i].split(",");
 			
-			scoreEntries.add(new ScoreEntry(info[0], int(info[1])));
+			// Add the data to the score board
+			if (info.length == 2)
+			{
+				scoreEntries.add(new ScoreEntry(info[0], int(info[1])));
+			}
 		}
 	}
 
@@ -75,6 +84,7 @@ class Game
      * Updates the currently loaded Map
      */
     void update()
+	
     {
         // Calculate delta time
         deltaTime = (millis() - lastMillis) * 0.001 * timeScale;
