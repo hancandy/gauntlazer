@@ -4,7 +4,7 @@ class MapLayout
     {
         switch(lv)
         {
-            case 1: 
+            case 1: //test level
                 return new int[][]{
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                     {1,F,F,F,1,F,F,F,F,F,F,F,1,F,F,F,F,F,F,F,F,F,F,F,1},
@@ -12,7 +12,7 @@ class MapLayout
                     {1,F,F,F,1,F,F,F,F,F,F,F,1,F,F,F,F,F,F,F,F,F,F,F,1},
                     {1,F,F,F,1,1,2,1,1,1,1,1,1,F,F,F,F,F,F,F,F,F,5,F,1},
                     {1,F,9,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,4,F,F,F,F,F,1},
-                    {1,F,F,F,F,F,F,F,F,F,3,F,F,F,F,F,F,F,F,4,F,F,F,F,1},
+                    {1,F,F,F,F,W,W,F,F,3,3,3,3,F,F,F,F,F,F,4,F,F,F,F,1},
                     {1,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,1},
                     {1,1,1,1,1,1,2,1,1,1,1,1,1,F,F,F,F,F,F,6,F,F,F,F,1},
                     {1,F,F,F,F,F,F,F,F,F,F,F,1,F,F,F,F,F,F,F,F,F,F,F,1},

@@ -16,6 +16,6 @@ class Goal extends Actor
         if(other instanceof Player == false) { return; }
        
 		game.state = GameState.WinLevel;
-		game.currentScore +=50;
+		game.currentScore +=20;
     }
 }

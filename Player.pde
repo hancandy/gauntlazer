@@ -73,6 +73,7 @@ class Player extends Pawn
                 shootKey = 96; // Numpad 0
                 shootDelay = 0.2;
                 ammoType = AmmoType.P2;
+				armor = 2;
                 break;
                 
             case 2:

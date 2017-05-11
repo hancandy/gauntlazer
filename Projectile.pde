@@ -30,17 +30,17 @@ class Projectile extends Actor
         switch(instigator.ammoType)
         {
             case P1:
-                damage = 10;
+                damage = 15;
                 sprite = loadImage("Assets/Textures/P1.png");
                 break;
 
             case P2:
-                damage = 20;
+                damage = 25;
                 sprite = loadImage("Assets/Textures/P2.png");
                 break;
 
             case P3:
-                damage = 30;
+                damage = 45;
                 sprite = loadImage("Assets/Textures/P3.png");
                 break;
         }
@@ -109,7 +109,7 @@ class Projectile extends Actor
         }
 
         // If the collided Actor is blocking, destroy this projectile
-        if(other.isBlocking) {
+        if(other.isBlocking && other instanceof Water == false) {
             game.currentMap.destroy(this);
             return;
         }

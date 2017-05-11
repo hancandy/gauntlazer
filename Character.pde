@@ -128,6 +128,6 @@ class Character extends Pawn
     {
         super.die();
 
-        game.currentScore += 5;
+        game.currentScore += 1;
     }
 }

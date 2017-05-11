@@ -1,3 +1,29 @@
+/**
+
+
+Player abilities:
+Player 1 shoots fastest, deals the least damage
+Player 2 shoots less fast, deal less damage, but takes half as much damage
+Player 3 shoots slowest, deals the most damage
+For future development, there could be different weapons, some can wider range weapon like shotgun
+
+Enemy variety:
+Ghoul can shoot bullets
+Slime deals a lot of damage, but moves slow
+Spider moves fast, deals less damage (not done)
+Ghost can go throw walls, but moves very slow, transparent when in walls (not done)
+Bat has short sight range, but moves extremely fast when triggered (not done)
+
+Bugs:
+Wall (not fixed)
+
+Score calculation:
+Treasure pick up adds + 5 points
+Kill an enemy + 1 points
+Pass a level + 20 points
+
+
+*/
 import java.awt.Rectangle;
 import java.util.Collections;
 

@@ -11,8 +11,10 @@ class Pawn extends Actor
     float shootDelay = 1;
     AmmoType ammoType = AmmoType.None;
     int ammo = 100;
+	float armor = 1;
     
     SpriteSheet blood = null;
+	
     
     // Timers
     float shootTimer = 0;
@@ -193,7 +195,7 @@ class Pawn extends Actor
     {
         blood.play("Splat", true); 
 
-        health -= amount;
+        health -= amount/armor;
 
         if(health <= 0)
         {
