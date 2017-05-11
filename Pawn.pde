@@ -12,6 +12,7 @@ class Pawn extends Actor
     AmmoType ammoType = AmmoType.None;
     int ammo = 100;
 	float armor = 1;
+	boolean isEtheral = false;
     
     SpriteSheet blood = null;
 	
@@ -250,7 +251,7 @@ class Pawn extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
-        if(!other.isBlocking) { return; }
+        if(!other.isBlocking || isEtheral) { return; }
 
         // Intersection happened above or below the pawn,
         // because the intersection rectangle was wider than it was tall

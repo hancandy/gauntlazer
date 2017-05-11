@@ -39,11 +39,51 @@ class ScoreEntry implements Comparable
 		}
 	}
 	
+class PlayerBuffer
+{
+	int[] treasureAmounts = new int[3];
+	
+	/**
+	 * Constructor: Stores player values
+	 */
+	PlayerBuffer(ArrayList<Actor> actors)
+	{		
+		for(int i = 0; i < actors.size(); i++)
+		{
+			Actor actor = actors.get(i);
+			
+			if(actor instanceof Player)
+			{
+				Player player = (Player)actor;
+				
+				treasureAmounts[player.index] = player.treasureAmount;				
+			}
+		}
+	}
+	
+	/**
+	 * Restores the player values
+	 */
+	 void restore(ArrayList<Actor> actors)
+	 {
+		for(int i = 0; i < actors.size(); i++)
+		{
+			Actor actor = actors.get(i);
+			
+			if(actor instanceof Player)
+			{
+				Player player = (Player)actor;
+				
+				player.treasureAmount = treasureAmounts[player.index];				
+			}
+		}
+	 }
+}
 	
 class Game
 {
 	
-    
+    PlayerBuffer currentPlayerBuffer;
 	Map currentMap;
 	ArrayList<ScoreEntry> scoreEntries = new ArrayList<ScoreEntry>();
 	String scoreInput = "";
@@ -116,6 +156,26 @@ class Game
 		playerCount = 0;
 		loadMap(new Map(new MapLayout().getLayout(currentMapIndex)));
 		game.state = GameState.Playing;
+	}
+	
+	/**
+	 * Store all player values
+	 */
+	 void storePlayerValues()
+	 {
+		if(currentMap == null) { return; }
+
+		currentPlayerBuffer = new PlayerBuffer(currentMap.actors);
+	}
+	
+	/**
+	 * Restore all player values
+	 */
+	 void restorePlayerValues()
+	 {
+		if(currentMap == null || currentPlayerBuffer == null) { return; }
+		
+		currentPlayerBuffer.restore(currentMap.actors);
 	}
 	
     /**

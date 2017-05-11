@@ -19,7 +19,9 @@ class UI
 
             case WinLevel:
                 game.currentMapIndex++;
+				game.storePlayerValues();
                 game.reload();
+				game.restorePlayerValues();
                 break;
             
             case GameOver: case WinGame:
@@ -59,8 +61,9 @@ class UI
                 break;
 
             case ScoreBoard:
+                game.currentMapIndex = 1;
+				game.currentPlayerBuffer = null;
                 game.reload();
-                game.currentMapIndex =1;
                 break;
 
         }
