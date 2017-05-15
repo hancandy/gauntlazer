@@ -81,7 +81,7 @@ class Player extends Pawn
                 downKey = 75; //K
                 leftKey = 74; //J
                 rightKey = 76;//L
-                shootKey = 77; //M
+                shootKey = 78; //N
                 shootDelay = 0.4;
                 ammoType = AmmoType.P3;
                 break;

@@ -15,8 +15,11 @@ class UI
         {
             case StartGame:
                 game.state = GameState.Playing;
+				break;
+				
+			case Playing:
                 break;
-
+				
             case WinLevel:
                 game.currentMapIndex++;
 				game.storePlayerValues();
@@ -113,14 +116,14 @@ class UI
                 break;
 
 
-
-
-//////////////////////////////////////////////////////////////////CHANGE BY ALVARO
+		//CHANGE BY ALVARO
             case StartGame:
                 textSize(12);
                 background(0);
                 text("GauntLazer", 100, 120);
+                fill(0,255,0);
                 text("Press any key to start", 100,150);
+                fill(255);
                 break;
 
             case WinLevel:
@@ -128,7 +131,9 @@ class UI
                 background(0);
                 text("Level Complete", 35,80);
                 textSize(10);
+                fill(0,255,0);
                 text("Press any key to continue", 100,220);
+                fill(255);
                 break;
 
             case GameOver: case WinGame:
@@ -136,10 +141,12 @@ class UI
                 background(0);
                 text("Game Over", 67, 60);
                 textSize(8);
-                text("Introduce NAME", 128, 120);
+                text("Type your NAME", 128, 120);
                 textSize(8);
                 text(game.scoreInput, 145,140);
+                fill(0,255,0);
                 text("Press ENTER to continue", 113,220);
+                fill(255);
                 break;
 
             case ScoreBoard:
@@ -147,16 +154,18 @@ class UI
                 background(0);
                 text("Score Board", 67,60);
                 textSize(10);
+                fill(0,255,0);
                 text("Press any key to restart", 105,220);
-                
+                fill(255);
+                text("Name", 110,90);
+                text("Points", 200, 90);
                 for (int i=0 ; i<game.scoreEntries.size() ; i++)
                 {
                     if (i>=9){break;} 
-                    text(game.scoreEntries.get(i).name + " " + game.scoreEntries.get(i).score, 150,100+i*10);
+                    text(game.scoreEntries.get(i).name + " ", 110,110+i*10 );
+                    text(game.scoreEntries.get(i).score, 200,110+i*10);
                 }
                 break;
         }
     }
 }
-
-//////////////////////////////////////////////////////////////////END OF CHANGES

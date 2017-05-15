@@ -1,35 +1,43 @@
 /**
-Name, date, project
+*Creators:
+*Chung Han Liu, Kimberly, Alvaro (please fill in :))
+*Submitted on 18 May 2017
+*Program name: Guantlaser
+*A 3 player local multiplayer game with __? levels
+
+*Controls:
+*Player 1 - Movement: WASD , Fire: Left Shift
+*Player 2 - Movement: IJKL , Fire: N
+*Player 3 - Movement: Arrow keys , Fire: numpad 0
 
 *Player abilities:
 *Player 1 shoots fastest, deals the least damage
 *Player 2 shoots less fast, deal less damage, but takes half as much damage
 *Player 3 shoots slowest, deals the most damage
-*For future development, there could be different weapons, some can wider range weapon like shotgun
+* - For future development, there could be different weapons, some can wider range weapon like shotgun
 
 *Enemy variety:
 *Ghoul can shoot bullets
 *Slime deals a lot of damage, but moves slow
-*Spider moves fast, deals less damage (not done)
-*Ghost can go throw walls, but moves very slow, transparent when in walls (not done)
-*Bat has short sight range, but moves extremely fast when triggered (not done)
-
-*Controls:
-*Cheat? easy way to go to a particular level?
-
-*To be done
-*Ghost doesn't become solid again
-*start screen (not done) : include controls?
-*camera fix
-*explain when accessing class variables outside of class
+*Spider moves fast, deals less damage
+*Ghost can go throw walls, but moves very slow, transparent when in walls 
+*Bat has short sight range, but moves extremely fast when triggered (not done?)
 
 *Score calculation:
 *Treasure pick up adds + 5 points
 *Kill an enemy + 1 points
 *Pass a level + 20 points
 
-loop function class ->need comment
-explain gameplay?
+*Levels
+*Feature levels : ____
+
+*To be done
+*start screen (not done) : include controls?
+*camera fix
+*explain when accessing class variables outside of class
+*HotKey for switching level
+*loop function class ->need comment
+*Cap max input length
 
 */
 

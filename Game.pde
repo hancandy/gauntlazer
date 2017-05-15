@@ -140,7 +140,13 @@ class Game
      */
     void draw()
     {
-        if(currentMap != null && state == GameState.Playing)
+        /* failed attempt by Han
+		if (state == GameState.StartGame)
+		{
+			ui.draw(state);
+		}	
+		*/
+		if(currentMap != null && state == GameState.Playing)
 		{
 			currentMap.draw();
 		}
