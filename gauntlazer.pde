@@ -84,7 +84,6 @@ void setup()
 
     // Start game
 	game = new Game();
-	game.reload();
   
 }
 

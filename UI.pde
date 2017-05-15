@@ -14,7 +14,7 @@ class UI
         switch(game.state)
         {
             case StartGame:
-                game.state = GameState.Playing;
+				game.reload();
 				break;
 				
 			case Playing:

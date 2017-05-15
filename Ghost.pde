@@ -2,7 +2,7 @@
 
 class Ghost extends Character
 {
-  //ghost becomes transparent for 0.5 seconds after colliding with walls and doors
+  //ghost becomes transparent for 0.3 seconds after colliding with walls and doors
   float transTimer = 0;
   Ghost()
   {
@@ -20,7 +20,7 @@ class Ghost extends Character
     super.onCollision(other,intersection);
     if (other instanceof Wall || other instanceof Door)
     {
-      transTimer = 0.5;
+      transTimer = 0.3;
     }
 
   }
