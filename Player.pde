@@ -170,6 +170,7 @@ class Player extends Pawn
 
         // Reset the damage timer
         damageTimer = damageDelay;
+		
         
     }
 

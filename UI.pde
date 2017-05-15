@@ -76,6 +76,16 @@ class UI
 
         }
     }
+	
+	void drawBar(int h, int posX, int posY)
+	{
+		float barSize = 20*(h/100.0);
+		if (barSize >=10){fill(0,255,0);}
+		if (barSize <10){fill(255,0,0);}
+		rect(posX,posY,barSize,5);
+		fill(0, 255, 0);
+		
+	}
 
     void draw(GameState state)
     {
@@ -85,7 +95,7 @@ class UI
         {
             case Playing:
                 textSize(6);
-                fill(0, 255, 0);
+                fill(0, 255, 0);	
                 stroke(2);
                 for (int i = 0; i < game.currentMap.actors.size(); i++)
                 {
@@ -95,24 +105,30 @@ class UI
                         if (player.index ==0)
                         {
                             text("Player 1", 5, 10);
-                            text("Health: "+player.health, 5, 20);
-                            text("Ammo: " +player.ammo, 5, 30);
+                            text("Health", 5, 20);
+							drawBar(player.health,25,15);
+                            text("Ammo" +player.ammo, 5, 30);
+							drawBar(player.ammo,25,25);
                             text("Treasure: " +player.treasureAmount, 5, 40);
                             text("Key: " +player.keyAmount, 5, 50);
                         }
                         if (player.index ==1)
                         {
                             text("Player 2", 260, 10);
-                            text("Health: "+player.health, 260, 20);
-                            text("Ammo: " +player.ammo, 260, 30);
+                            text("Health", 260, 20);
+							drawBar(player.health, 280, 15);
+                            text("Ammo" , 260, 30);
+							drawBar(player.ammo,280,25);
                             text("Treasure: " +player.treasureAmount, 260, 40);
                             text("Key: " +player.keyAmount, 260, 50);
                         }
                         if (player.index ==2)
                         {
                             text("Player 3", 5, 190);
-                            text("Health: "+player.health, 5, 200);
-                            text("Ammo: " +player.ammo, 5, 210);
+                            text("Health", 5, 200);
+							drawBar(player.health, 25, 195);
+                            text("Ammo", 5, 210);
+							drawBar(player.ammo, 25, 205);
                             text("Treasure: " +player.treasureAmount, 5, 220);
                             text("Key: " +player.keyAmount, 5, 230);                 
                         }

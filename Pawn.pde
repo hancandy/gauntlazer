@@ -198,7 +198,12 @@ class Pawn extends Actor
 
         health -= amount/armor;
 
-        if(health <= 0)
+        //kim changed 
+		if (health <0)
+		{
+			health =0;
+		}
+		if(health == 0)
         {
             die();
         }
