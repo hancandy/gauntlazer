@@ -32,7 +32,6 @@
 *Feature levels : ____
 
 *To be done
-*start screen (not done) : include controls?
 *camera fix
 *explain when accessing class variables outside of class
 *HotKey for switching level

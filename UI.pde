@@ -123,6 +123,10 @@ class UI
                 text("GauntLazer", 100, 120);
                 fill(0,255,0);
                 text("Press any key to start", 100,150);
+				textSize(6);
+				text("Player 1 - Movement: WASD , Fire: Left Shift", 30,160);
+				text("Player 2 - Movement: IJKL , Fire: N", 30,170);
+				text("Player 3 - Movement: Arrow keys , Fire: numpad 0", 30,180);
                 fill(255);
                 break;
 
