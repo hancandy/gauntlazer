@@ -9,6 +9,7 @@ class Bat extends Character
     speed = 80;
     damage = 10;
     health = 100;
+	visionRange = 1;
     initSpriteSheet("Assets/Textures/Bat.png");
   }
 }

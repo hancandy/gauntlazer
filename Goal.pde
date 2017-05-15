@@ -13,9 +13,18 @@ class Goal extends Actor
     void onCollision(Actor other, Rectangle intersection)
     {
         // We only care about interaction with Players
-        if(other instanceof Player == false) { return; }
-       
-		game.state = GameState.WinLevel;
-		game.currentScore +=20;
+		if(other instanceof Player == false) { return; }
+        
+		if (game.currentMapIndex > 18)
+		{
+			game.state = GameState.WinGame;
+		}
+		else
+		{
+			game.state = GameState.WinLevel;
+			game.currentScore +=20;
+		}
+		
+		game.timeScale = 0;
     }
 }

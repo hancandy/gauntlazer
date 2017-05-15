@@ -32,7 +32,8 @@ class Character extends Pawn
      */
     Player findNearestPlayer()
     {
-        Player nearestPlayer = null;
+        if (game.currentMap == null){return null;}
+		Player nearestPlayer = null;
 
         // Loop through all Actors to find a Player
         for(int i = 0; i < game.currentMap.actors.size(); i++)

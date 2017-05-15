@@ -21,6 +21,7 @@ class UI
 				if (keyCode==TAB)
 				{
 					game.currentMapIndex++;
+					if (game.currentMapIndex >18){break;}
 					game.reload();
 				}
                 break;
@@ -141,13 +142,16 @@ class UI
             case StartGame:
                 textSize(12);
                 background(0);
-                text("GauntLazer", 100, 120);
+                textSize(35);
+                text("GauntLazer", 65, 60);
+             
+				        textSize(6);
+			        	text("Player 1 - Movement: WASD , Fire: Left Shift", 90,160);
+				        text("Player 2 - Movement: IJKL , Fire: N", 90,170);
+				        text("Player 3 - Movement: Arrow keys , Fire: numpad 0", 90,180);
                 fill(0,255,0);
-                text("Press any key to start", 100,150);
-				textSize(6);
-				text("Player 1 - Movement: WASD , Fire: Left Shift", 30,160);
-				text("Player 2 - Movement: IJKL , Fire: N", 30,170);
-				text("Player 3 - Movement: Arrow keys , Fire: numpad 0", 30,180);
+                textSize(10);
+                text("Press any key to start", 105,220);
                 fill(255);
                 break;
 
@@ -161,10 +165,23 @@ class UI
                 fill(255);
                 break;
 
-            case GameOver: case WinGame:
+            case GameOver: 
                 textSize(35);
                 background(0);
                 text("Game Over", 67, 60);
+                textSize(8);
+                text("Type your NAME", 128, 120);
+                textSize(8);
+                text(game.scoreInput, 145,140);
+                fill(0,255,0);
+                text("Press ENTER to continue", 113,220);
+                fill(255);
+                break;
+				
+			case WinGame:
+                textSize(35);
+                background(0);
+                text("You won!", 70, 60);
                 textSize(8);
                 text("Type your NAME", 128, 120);
                 textSize(8);
@@ -191,6 +208,7 @@ class UI
                     text(game.scoreEntries.get(i).score, 200,110+i*10);
                 }
                 break;
+				
         }
     }
 }

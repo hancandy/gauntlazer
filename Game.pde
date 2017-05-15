@@ -89,7 +89,7 @@ class Game
 	String scoreInput = "";
 	int currentScore = 0;
 	
-	int currentMapIndex = 1;
+	int currentMapIndex = 0;
     int lastMillis = 0;
     
     GameState state = GameState.StartGame;
@@ -97,6 +97,7 @@ class Game
     UI ui = new UI();
 
     float timeScale = 1.0;
+    float fixedDeltaTime = 0.0;
     float deltaTime = 0.0;
 	
 	Game()
@@ -127,7 +128,8 @@ class Game
 	
     {
         // Calculate delta time
-        deltaTime = (millis() - lastMillis) * 0.001 * timeScale;
+        fixedDeltaTime = (millis() - lastMillis) * 0.001;
+		deltaTime = fixedDeltaTime * timeScale;
         lastMillis = millis();
 
         if(currentMap == null) { return; }
@@ -147,15 +149,18 @@ class Game
             
         ui.draw(state); 
     }
-
+	
+	
 	/**
 	 * Reload the game
 	 */
+	 
 	void reload()
 	{
+		timeScale = 1;
 		playerCount = 0;
 		loadMap(new Map(new MapLayout().getLayout(currentMapIndex)));
-		game.state = GameState.Playing;
+		state = GameState.Playing;
 	}
 	
 	/**

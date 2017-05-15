@@ -36,7 +36,8 @@
 *camera fix
 *explain when accessing class variables outside of class
 *Comment loop function class, clean up code
-*Cap max input length
+*why use constant
+*check bat sight range
 
 */
 

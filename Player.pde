@@ -109,6 +109,7 @@ class Player extends Pawn
      */
     void update()
     {
+		if (game.currentMap == null){return;}
         // Update the Pawn, that this Player inherits from, first
         super.update();
 
