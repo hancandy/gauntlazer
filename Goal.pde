@@ -2,7 +2,7 @@ class Goal extends Actor
 {
 	Goal()
     {
-        //sprite = loadImage("Assets/Textures/T.png");
+        sprite = loadImage("Assets/Textures/Portal.png");
 
         checkCollisions = true;
     }

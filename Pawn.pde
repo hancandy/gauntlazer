@@ -219,7 +219,7 @@ class Pawn extends Actor
      * Applies velocity to the Pawn's position
      */
     void move()
-    {
+    {		
         position.x += velocity.x * speed * game.deltaTime;
         position.y += velocity.y * speed * game.deltaTime;
 
@@ -256,18 +256,22 @@ class Pawn extends Actor
         // Intersection happened above or below the pawn,
         // because the intersection rectangle was wider than it was tall
         if(intersection.width > intersection.height)
-        {
+        {			
             // Prevent movement if...
-            if(
-                // ...the intersection is above the pawn,
-                // and they're trying to move upward
-                (intersection.getCenterY() < getCenterY() && velocity.y < 0) ||
+			
+			// ...the intersection is above the pawn,
+			// and they're trying to move upward
+            if(intersection.getCenterY() < getCenterY() && velocity.y < 0)
+			{
+				position.y += intersection.height;
+				velocity.y = 0;
+			}
                 
-                // ...the intersection is below the pawn,
-                // and they're trying to move downward
-                (intersection.getCenterY() > getCenterY() && velocity.y > 0)
-            )
+			// ...the intersection is below the pawn,
+			// and they're trying to move downward
+			else if(intersection.getCenterY() > getCenterY() && velocity.y > 0)
             {
+				position.y -= intersection.height;
                 velocity.y = 0;
             }
         }
@@ -277,16 +281,20 @@ class Pawn extends Actor
         else if(intersection.width < intersection.height)
         {
             // Prevent movement if...
-            if(
-                // ...the intersection is to the left of the pawn,
-                // and they're trying to move towards the left
-                (intersection.getCenterX() < getCenterX() && velocity.x < 0) ||
-                
-                // ...the intersection is to the right of the pawn,
-                // and they're trying to move rowards the right
-                (intersection.getCenterX() > getCenterX() && velocity.x > 0)
-            )
+
+			// ...the intersection is to the left of the pawn,
+			// and they're trying to move towards the left
+			if(intersection.getCenterX() < getCenterX() && velocity.x < 0)
+			{
+				position.x += intersection.width;
+				velocity.x = 0;
+			}
+			
+			// ...the intersection is to the right of the pawn,
+			// and they're trying to move rowards the right
+			else if(intersection.getCenterX() > getCenterX() && velocity.x > 0)
             {
+				position.x -= intersection.width;
                 velocity.x = 0;
             }
         }

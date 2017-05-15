@@ -183,7 +183,13 @@ class Map
         Rectangle rect1 = new Rectangle(0, 0, 0, 0);
         Rectangle rect2 = new Rectangle(0, 0, 0, 0);
         Rectangle intersection = new Rectangle(0, 0, 0, 0);
-
+		
+		// Adopt the queried Actor position and bounds into rect1
+		rect1.x = int(actor.position.x) + actor.bounds.x;
+		rect1.y = int(actor.position.y) + actor.bounds.y;
+		rect1.width = actor.bounds.width;
+		rect1.height = actor.bounds.height;
+		
         // Loop through all Actors
         for(int i = 0; i < actors.size(); i++)
         {
@@ -191,12 +197,6 @@ class Map
             // or this Actor doesn't need collision checking,
             // cancel
             if(actor == actors.get(i) || !actors.get(i).checkCollisions) { continue; }
-
-            // Adopt the query Actor position and bounds into rect1
-            rect1.x = int(actor.position.x) + actor.bounds.x;
-            rect1.y = int(actor.position.y) + actor.bounds.y;
-            rect1.width = actor.bounds.width;
-            rect1.height = actor.bounds.height;
             
             // Adopt this Actor position and bounds into rect2
             rect2.x = int(actors.get(i).position.x) + actors.get(i).bounds.x;

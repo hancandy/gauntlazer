@@ -1,3 +1,4 @@
+//Same logic that the wall has but bullets can go through
 /**
  * A simple blocking Actor
  */

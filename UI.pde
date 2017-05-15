@@ -112,37 +112,51 @@ class UI
                 }
                 break;
 
+
+
+
+//////////////////////////////////////////////////////////////////CHANGE BY ALVARO
             case StartGame:
                 textSize(12);
+                background(0);
                 text("GauntLazer", 100, 120);
                 text("Press any key to start", 100,150);
                 break;
 
             case WinLevel:
-                textSize(12);
-                text("Level Complete", 100,120);
-                text("Press any key to continue", 100,150);
+                textSize(35);
+                background(0);
+                text("Level Complete", 35,80);
+                textSize(10);
+                text("Press any key to continue", 100,220);
                 break;
 
             case GameOver: case WinGame:
-                textSize(12);
-                text("Game Over", 100,80);
+                textSize(35);
+                background(0);
+                text("Game Over", 67, 60);
                 textSize(8);
-                text(game.scoreInput, 100,100);
-                text("Press enter to continue", 100,120);
+                text("Introduce NAME", 128, 120);
+                textSize(8);
+                text(game.scoreInput, 145,140);
+                text("Press ENTER to continue", 113,220);
                 break;
 
             case ScoreBoard:
-                textSize(12);
-                text("Score Board", 100,50);
-                text("Press any key to restart", 100,80);
+                textSize(35);
+                background(0);
+                text("Score Board", 67,60);
+                textSize(10);
+                text("Press any key to restart", 105,220);
                 
                 for (int i=0 ; i<game.scoreEntries.size() ; i++)
                 {
                     if (i>=9){break;} 
-                    text(game.scoreEntries.get(i).name + " " + game.scoreEntries.get(i).score, 50,100+i*10);
+                    text(game.scoreEntries.get(i).name + " " + game.scoreEntries.get(i).score, 150,100+i*10);
                 }
                 break;
         }
     }
 }
+
+//////////////////////////////////////////////////////////////////END OF CHANGES
