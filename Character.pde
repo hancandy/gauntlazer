@@ -10,7 +10,7 @@ class Character extends Pawn
     int damage = 25;
 
     // How far can this Character see?
-    float visionRange = 50;
+    float visionRange = 200;
 
     /**
      * Constructor
@@ -32,8 +32,7 @@ class Character extends Pawn
      */
     Player findNearestPlayer()
     {
-        if (game.currentMap == null){return null;}
-		Player nearestPlayer = null;
+        Player nearestPlayer = null;
 
         // Loop through all Actors to find a Player
         for(int i = 0; i < game.currentMap.actors.size(); i++)
@@ -45,12 +44,14 @@ class Character extends Pawn
             {
                 // Assign the found Player if...
                 if(
-                    // ...it's the only Player we've found
-                    nearestPlayer == null ||
-                    // ...or it's closer to the Character than the previous result
-                    position.dist(actor.position) < position.dist(nearestPlayer.position) &&
+                    (
+                        // ...it's the only Player we've found
+                        nearestPlayer == null
+                        // ...or it's closer to the Character than the previous result
+                        || position.dist(actor.position) < position.dist(nearestPlayer.position)
+                    )
                     // ...and it's within the vision range
-                    position.dist(actor.position) <= visionRange
+                    && position.dist(actor.position) <= visionRange
                 )
                 {
                     // Cast the found Player
@@ -120,6 +121,14 @@ class Character extends Pawn
             // Inflict damage upon the player
             player.takeDamage(damage, this);
         }
+    }
+
+    /**
+     * Taking damage
+     */
+    void takeDamage(int amount, Actor actor)
+    {
+        super.takeDamage(amount, actor);
     }
 
     /**

@@ -1,5 +1,6 @@
-//Ghoul(enemy) can shoot bullets like the characters, average speed and damage.
-
+/**
+ * Ghoul(enemy) can shoot bullets like the characters, average speed and damage.
+ */
 class Ghoul extends Character
 {
     Ghoul()

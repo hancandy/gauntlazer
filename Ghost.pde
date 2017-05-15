@@ -1,45 +1,56 @@
-////Ghost (enemy) is super slow but can cross walls and water, deal an average amount of damage
-
+/**
+ * Ghosts are super slow but can cross walls and water, deal an average amount of damage
+ */
 class Ghost extends Character
 {
-  //ghost becomes transparent for 0.3 seconds after colliding with walls and doors
-  float transTimer = 0;
-  Ghost()
-  {
-    super();
-    speed = 15;
-    damage = 40;
-    health = 200;
-    isEtheral = true;
-    initSpriteSheet("Assets/Textures/Ghost.png");
-  }
+    // Ghosts become transparent for 0.3 seconds after colliding with walls and doors
+    float transparentTimer = 0;
 
-
-  void onCollision(Actor other, Rectangle intersection)
-  {
-    super.onCollision(other,intersection);
-    if (other instanceof Wall || other instanceof Door)
+    Ghost()
     {
-      transTimer = 0.3;
+        super();
+        speed = 15;
+        damage = 40;
+        health = 200;
+        isEthereal = true;
+        initSpriteSheet("Assets/Textures/Ghost.png");
     }
 
-  }
-
-  void update()
-  {
-    if (transTimer>0){transTimer -=game.deltaTime;}
-    super.update();
-  }
-
-  void draw()
-  {
-    if (transTimer > 0)
+    /**
+     * Event: Collision
+     */
+    void onCollision(Actor other, Rectangle intersection)
     {
-      tint(255, 127);
+        super.onCollision(other,intersection);
+
+        if (other instanceof Wall || other instanceof Door)
+        {
+            transparentTimer = 0.3;
+        }
     }
-    super.draw();
-    tint(255,255);
-  }
 
+    /**
+     * Runs every frame
+     */
+    void update()
+    {
+        if (transparentTimer > 0) { transparentTimer -=game.deltaTime; }
 
+        super.update();
+    }
+
+    /**
+     * Draws this Ghost with transparency
+     */
+    void draw()
+    {
+        if (transparentTimer > 0)
+        {
+            tint(255, 127);
+        }
+
+        super.draw();
+
+        tint(255,255);
+    }
 }

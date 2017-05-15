@@ -4,7 +4,8 @@
 class Ammo extends Item
 {
     public int amount = 50;
-  /**
+    
+    /**
      * Constructor
      */
     Ammo()
@@ -25,10 +26,10 @@ class Ammo extends Item
         // Cast Actor to Player 
         Player player = (Player)other;
         
-        // Increase key amount in Player
-        player.ammo+=30;
+        // Increase ammo amount in Player
+        player.ammo += 30;
         
-        // Destroy this Key
+        // Destroy this Ammo
         game.currentMap.destroy(this);
     }
 }

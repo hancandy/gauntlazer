@@ -12,7 +12,7 @@ class Pawn extends Actor
     AmmoType ammoType = AmmoType.None;
     int ammo = 100;
 	float armor = 1;
-	boolean isEtheral = false;
+	boolean isEthereal = false;
     
     SpriteSheet blood = null;
 	
@@ -198,11 +198,8 @@ class Pawn extends Actor
 
         health -= amount/armor;
 
-        //kim changed 
-		if (health <0)
-		{
-			health =0;
-		}
+		if(health < 0) { health = 0; }
+
 		if(health == 0)
         {
             die();
@@ -256,7 +253,7 @@ class Pawn extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
-	if(!other.isBlocking || isEtheral && (other instanceof Wall|| other instanceof Door || other instanceof Water)) { return; }
+	if(!other.isBlocking || isEthereal && (other instanceof Wall|| other instanceof Door || other instanceof Water)) { return; }
 
         // Intersection happened above or below the pawn,
         // because the intersection rectangle was wider than it was tall

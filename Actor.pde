@@ -9,7 +9,7 @@ class Actor
     // Lifetime
     float lifetime = 0;
 
-    // The rendereed image
+    // The rendered image
     PImage sprite = null;
     SpriteSheet spriteSheet = null;
 
@@ -49,7 +49,7 @@ class Actor
             spriteSheet.draw(position.x, position.y);
         }
 
-        // Draw some debug lines
+        // Draw some debug lines around the collision bounds
         if(DEBUG)
         {
             stroke(0, 255, 0);
