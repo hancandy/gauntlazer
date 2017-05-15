@@ -34,7 +34,7 @@ class UI
             
             case GameOver: case WinGame:
                 // Add character in name entry
-                if (((key >= 'a' && key <= 'z')||(key >='A' && key<= 'Z')) )
+                if (((key >= 'a' && key <= 'z')||(key >='A' && key<= 'Z'))&& game.scoreInput.length()<=9 )
                 {
                     game.scoreInput+= key;
                 }
