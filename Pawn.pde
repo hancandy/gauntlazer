@@ -251,7 +251,7 @@ class Pawn extends Actor
      */
     void onCollision(Actor other, Rectangle intersection)
     {
-if(!other.isBlocking || isEtheral && (other instanceof Wall|| other instanceof Door || other instanceof Water)) { return; }
+	if(!other.isBlocking || isEtheral && (other instanceof Wall|| other instanceof Door || other instanceof Water)) { return; }
 
         // Intersection happened above or below the pawn,
         // because the intersection rectangle was wider than it was tall
