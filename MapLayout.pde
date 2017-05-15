@@ -13,7 +13,7 @@ class MapLayout
                     {1,F,F,F,1,F,F,F,F,F,F,F,1,F,F,F,F,F,F,F,F,F,F,F,1},
                     {1,F,F,F,1,1,2,1,1,1,1,1,1,F,F,F,F,F,F,F,F,F,5,F,1},
                     {1,F,9,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,4,F,F,F,F,B,1},
-                    {1,F,F,F,F,W,W,F,F,4,4,4,3,F,F,F,F,F,F,4,F,F,F,F,1},
+                    {1,F,F,F,9,W,W,F,F,4,4,4,3,F,F,F,F,F,F,4,F,F,F,F,1},
                     {1,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,1},
                     {1,1,1,1,1,1,2,1,1,1,1,1,1,F,F,F,F,F,F,6,F,F,F,F,1},
                     {1,F,F,F,F,F,F,F,F,F,F,F,1,F,F,F,F,F,F,F,F,F,F,F,1},

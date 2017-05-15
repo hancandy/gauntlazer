@@ -75,7 +75,7 @@ class Projectile extends Actor
         // Check Projectile lifetime
         if(lifetime > PROJECTILE_LIFETIME)
         {
-            game.currentMap.destroy(this);
+            destroy();
         }
     }
 
@@ -104,13 +104,13 @@ class Projectile extends Actor
             Pawn pawn = (Pawn)other;
 
             pawn.takeDamage(damage, this);
-            game.currentMap.destroy(this);
+            destroy();
             return;
         }
 
         // If the collided Actor is blocking, destroy this projectile
         if(other.isBlocking && other instanceof Water == false) {
-            game.currentMap.destroy(this);
+            destroy();
             return;
         }
 

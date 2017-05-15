@@ -123,34 +123,32 @@ class Player extends Pawn
         if(isDownPressed) { velocity.y = 1; }
         if(isRightPressed) { velocity.x = 1; }
 
+        // Keep Player in-bounds, if...
+        if(
+            // ...the far right side has been reached and we're trying to move right
+            (getXMax() > game.currentMap.cameraPosition.x + SCREEN_SIZE.x && velocity.x > 0)
+            
+            // ...or the far left side has been reached and we're trying to move left
+            || (getXMin() < game.currentMap.cameraPosition.x && velocity.x < 0)
+        )
+        {
+            velocity.x = 0;
+        }
+
+        if(
+            // ...or the top has been reached and we're trying to move up
+            (getYMin() < game.currentMap.cameraPosition.y && velocity.y < 0)
+
+            // ...or the bottom has been reached and we're trying to move down
+            || (getYMax() > game.currentMap.cameraPosition.y + SCREEN_SIZE.y && velocity.y > 0)
+        )
+        {
+            velocity.y = 0;
+        }
+
         // Update weapon firing
         if(isShootPressed) { shoot(); }
             
-        // Check Player's position in relation to camera
-        // Right    
-        if(getXMax() > game.currentMap.cameraPosition.x + SCREEN_SIZE.x - CAMERA_MARGIN)
-        {
-            game.currentMap.moveCamera(1, 0);
-        }
-        
-        // Left
-        if(getXMin() < game.currentMap.cameraPosition.x + CAMERA_MARGIN)
-        {
-            game.currentMap.moveCamera(-1, 0);
-        }
-        
-        // Top    
-        if(getYMax() > game.currentMap.cameraPosition.y + SCREEN_SIZE.y - CAMERA_MARGIN)
-        {
-            game.currentMap.moveCamera(0, 1);
-        }
-        
-        // Bottom
-        if(getYMin() < game.currentMap.cameraPosition.y + CAMERA_MARGIN)
-        {
-            game.currentMap.moveCamera(0, -1);
-        }
-
         // Update the damage timer
         if(damageTimer > 0)
         {
@@ -171,8 +169,6 @@ class Player extends Pawn
 
         // Reset the damage timer
         damageTimer = damageDelay;
-		
-        
     }
 
     /**

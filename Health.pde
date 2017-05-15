@@ -28,6 +28,6 @@ class Health extends Item
         player.health+=50;
         
         // Destroy this Key
-        game.currentMap.destroy(this);
+        destroy();
     }
 }

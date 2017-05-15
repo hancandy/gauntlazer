@@ -27,10 +27,10 @@ class Treasure extends Item
         // Increase key amount in Player
         player.treasureAmount++;
         
-        // Destroy this Key
-        game.currentMap.destroy(this);
-		
-		// Add score
-		game.currentScore +=5;
+        // Destroy this Treasure
+        destroy();
+
+        // Add score
+        game.currentScore += 5;
     }
 }

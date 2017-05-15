@@ -9,6 +9,9 @@ class Actor
     // Lifetime
     float lifetime = 0;
 
+    // Mark for destruction
+    boolean destroyOnNextFrame = false;
+
     // The rendered image
     PImage sprite = null;
     SpriteSheet spriteSheet = null;
@@ -32,6 +35,14 @@ class Actor
         {
             spriteSheet.update();
         }
+    }
+
+    /**
+     * Destroys this Actor
+     */
+    void destroy()
+    {
+        destroyOnNextFrame = true;
     }
 
     /**

@@ -28,6 +28,6 @@ class Key extends Item
         player.keyAmount++;
         
         // Destroy this Key
-        game.currentMap.destroy(this);
+        destroy();
     }
 }

@@ -24,65 +24,62 @@ class Map
                 switch(layout[y][x])
                 {
                     case 1: // Wall
-                      actor = new Wall();
-                      break;
-                    
+                        actor = new Wall();
+                        break;
+
                     case 2: // Door
-                      actor = new Door();
-                      break;
-                    
+                        actor = new Door();
+                        break;
+
                     case 3: // Key
-                      actor = new Key();
-                      break;
-                      
+                        actor = new Key();
+                        break;
+
                     case 4: //Treasure
-                      actor = new Treasure();
-                      break;
-                      
+                        actor = new Treasure();
+                        break;
+
                     case 5: //Health
-                      actor = new Health();
-                      break;
-                      
+                        actor = new Health();
+                        break;
+
                     case 6: //Ammo
-                      actor = new Ammo();
-                      break;
-                      
+                        actor = new Ammo();
+                        break;
+
                     case 7: // Slime
-                      actor = new Slime();
-                      break;
-                      
+                        actor = new Slime();
+                        break;
+
                     case 8: // Ghoul
-                      actor = new Ghoul();
-                      break;
-                    
+                        actor = new Ghoul();
+                        break;
+
                     case 9: // Player
-                      actor = new Player();
-                      break;
-                     
-///////////////////////////////////////////////ADD BY ALVARO
-                      
+                        actor = new Player();
+                        break;
+
                     case S: // Spider
-                      actor = new Spider();
-                      break;
-                      
-					          case B: // Bat
-                      actor = new Bat();
-                      break;
-                      
+                        actor = new Spider();
+                        break;
+
+                    case B: // Bat
+                        actor = new Bat();
+                        break;
+
                     case G: // Ghost
-                      actor = new Ghost();
-                      break;
-                      
-                    case W: //Water
-                      actor = new Water();
-                      break;
-////////////////////////////////////////////////////////////////
-                      
-          					case X: //Goal
-          					  actor = new Goal();
-          					  break;
-                          }
-                          
+                        actor = new Ghost();
+                        break;
+
+                    case W: // Water
+                        actor = new Water();
+                        break;
+
+                    case X: // Goal
+                        actor = new Goal();
+                        break;
+                }
+
 
                 // If no Actor was found, cancel
                 if(actor == null) { continue; }
@@ -112,41 +109,14 @@ class Map
     }
 
     /**
-     * Destroys an actor
-     */
-    void destroy(Actor actor)
-    {
-        for(int i = 0; i < actors.size(); i++)
-        {
-            if(actor == actors.get(i))
-            {
-                actors.remove(i);
-                return;
-            }
-        }
-    }
-
-    /**
-     * Moves the camera position
-     */
-    void moveCamera(float x, float y)
-    {
-        cameraPosition.x += x * CAMERA_SPEED * game.deltaTime * game.timeScale;
-        cameraPosition.y += y * CAMERA_SPEED * game.deltaTime * game.timeScale;
-
-        // Keep camera in-bounds
-        if(cameraPosition.x < 0) { cameraPosition.x = 0; }
-        if(cameraPosition.x + SCREEN_SIZE.x > areaSize.x ) { cameraPosition.x = areaSize.x - SCREEN_SIZE.x; }
-        if(cameraPosition.y < 0) { cameraPosition.y = 0; }
-        if(cameraPosition.y + SCREEN_SIZE.y > areaSize.y ) { cameraPosition.y = areaSize.y - SCREEN_SIZE.y; }
-    }
-
-    /**
      * Updates all Actors and checks collisions
      */
     void update()
     {
         Actor actor;
+
+        // New camera position
+        PVector newCameraPosition = new PVector(0, 0);
 
         // Loop through all Actors,
         // backwards so we can remove an Actor if we need to
@@ -154,20 +124,49 @@ class Map
         {
             actor = actors.get(i);
 
+            // Check if Actor is marked for destruction
+            if(actor.destroyOnNextFrame)
+            {
+                actors.remove(i);
+                continue;
+            }
+
             // Add to Actor lifetime
             actor.lifetime += game.deltaTime;
 
             // If the Actor shouldn't update, cancel
             if(!actor.canUpdate) { continue; }
 
+            // If this Actor is a Player, add to the cameraPosition
+            if(actor instanceof Player) {
+                newCameraPosition.x += actor.position.x;
+                newCameraPosition.y += actor.position.y;
+            }
+            
             // Update the Actor
             actor.update();
 
             // Check if this Actor has any collisions
             checkCollisions(actor);
         }
-	
-		
+
+        // Make the camera position the average
+        newCameraPosition.x /= 3;
+        newCameraPosition.y /= 3;
+
+        // Subtract the half screen size from the camera position
+        newCameraPosition.x -= SCREEN_SIZE.x / 2;
+        newCameraPosition.y -= SCREEN_SIZE.y / 2;
+
+        // Keep camera in-bounds
+        if(newCameraPosition.x < 0) { newCameraPosition.x = 0; }
+        if(newCameraPosition.x + SCREEN_SIZE.x > areaSize.x ) { newCameraPosition.x = areaSize.x - SCREEN_SIZE.x; }
+        if(newCameraPosition.y < 0) { newCameraPosition.y = 0; }
+        if(newCameraPosition.y + SCREEN_SIZE.y > areaSize.y ) { newCameraPosition.y = areaSize.y - SCREEN_SIZE.y; }
+
+        // Assign the new camera position
+        cameraPosition.x = newCameraPosition.x;
+        cameraPosition.y = newCameraPosition.y;
     }
 
     /**
@@ -183,13 +182,13 @@ class Map
         Rectangle rect1 = new Rectangle(0, 0, 0, 0);
         Rectangle rect2 = new Rectangle(0, 0, 0, 0);
         Rectangle intersection = new Rectangle(0, 0, 0, 0);
-		
-		// Adopt the queried Actor position and bounds into rect1
-		rect1.x = int(actor.position.x) + actor.bounds.x;
-		rect1.y = int(actor.position.y) + actor.bounds.y;
-		rect1.width = actor.bounds.width;
-		rect1.height = actor.bounds.height;
-		
+
+        // Adopt the queried Actor position and bounds into rect1
+        rect1.x = int(actor.position.x) + actor.bounds.x;
+        rect1.y = int(actor.position.y) + actor.bounds.y;
+        rect1.width = actor.bounds.width;
+        rect1.height = actor.bounds.height;
+
         // Loop through all Actors
         for(int i = 0; i < actors.size(); i++)
         {
@@ -197,7 +196,7 @@ class Map
             // or this Actor doesn't need collision checking,
             // cancel
             if(actor == actors.get(i) || !actors.get(i).checkCollisions) { continue; }
-            
+
             // Adopt this Actor position and bounds into rect2
             rect2.x = int(actors.get(i).position.x) + actors.get(i).bounds.x;
             rect2.y = int(actors.get(i).position.y) + actors.get(i).bounds.y;
@@ -232,10 +231,10 @@ class Map
 
             actors.get(i).draw();
         }
-        
+
         translate(cameraPosition.x, cameraPosition.y);
     }
-   
+
     /**
      * Handles input events for all Actors
      */ 

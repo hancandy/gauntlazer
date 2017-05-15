@@ -194,7 +194,7 @@ class Game
 
     void checkIfGameOver()
     {
-        for(int i = 0; i<currentMap.actors.size() ; i++)
+        for(int i = 0; i < currentMap.actors.size() ; i++)
         {
             if (currentMap.actors.get(i) instanceof Player == false){continue;}
             Player player = (Player)currentMap.actors.get(i);

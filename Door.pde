@@ -32,6 +32,6 @@ class Door extends Actor
         player.keyAmount--;
         
         // Destroy this Door
-        game.currentMap.destroy(this);
+        destroy();
     }
 }

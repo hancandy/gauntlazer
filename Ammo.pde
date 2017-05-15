@@ -30,6 +30,6 @@ class Ammo extends Item
         player.ammo += 30;
         
         // Destroy this Ammo
-        game.currentMap.destroy(this);
+        destroy();
     }
 }
