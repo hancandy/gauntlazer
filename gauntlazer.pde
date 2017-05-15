@@ -30,12 +30,12 @@
 
 *Levels
 *Feature levels : ____
+*Press TAB to get to the next level
 
-*To be done
+*To-Do
 *camera fix
 *explain when accessing class variables outside of class
-*HotKey for switching level
-*loop function class ->need comment
+*Comment loop function class, clean up code
 *Cap max input length
 
 */

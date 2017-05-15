@@ -18,6 +18,11 @@ class UI
 				break;
 				
 			case Playing:
+				if (keyCode==TAB)
+				{
+					game.currentMapIndex++;
+					game.reload();
+				}
                 break;
 				
             case WinLevel:
