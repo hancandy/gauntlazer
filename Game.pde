@@ -90,7 +90,7 @@ class Game
     String scoreInput = "";
     int currentScore = 0;
 
-    int currentMapIndex = 0;
+    int currentMapIndex = 1;
     int lastMillis = 0;
 
     GameState state = GameState.StartGame;

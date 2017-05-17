@@ -3,7 +3,8 @@
  */
 class UI
 {
-    /**
+    PImage logo;
+	/**
      * Handles input events for all Actors
      */ 
     void inputKey(int code, boolean isPressed)
@@ -143,13 +144,15 @@ class UI
                 textSize(12);
                 background(0);
                 textSize(35);
-                text("GauntLazer", 65, 60);
+                logo = loadImage("Assets/Textures/Logo.png");
+				image(logo,-29,10);
              
-				        textSize(6);
-			        	text("Player 1 - Movement: WASD , Fire: Left Shift", 90,160);
-				        text("Player 2 - Movement: IJKL , Fire: N", 90,170);
-				        text("Player 3 - Movement: Arrow keys , Fire: numpad 0", 90,180);
-                fill(0,255,0);
+				textSize(6);
+			    text("Player 1 - Movement: WASD , Fire: Left Shift", 90,160);
+				text("Player 2 - Movement: IJKL , Fire: N", 90,170);
+				text("Player 3 - Movement: Arrow keys , Fire: numpad 0", 90,180);
+                
+				fill(0,255,0);
                 textSize(10);
                 text("Press any key to start", 105,220);
                 fill(255);
