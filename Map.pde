@@ -118,6 +118,9 @@ class Map
         // New camera position
         PVector newCameraPosition = new PVector(0, 0);
 
+        // Keep track of amount of alive Players
+        int alivePlayers = 0;
+
         // Loop through all Actors,
         // backwards so we can remove an Actor if we need to
         for(int i = actors.size() - 1; i >= 0; i--)
@@ -137,10 +140,12 @@ class Map
             // If the Actor shouldn't update, cancel
             if(!actor.canUpdate) { continue; }
 
-            // If this Actor is a Player, add to the cameraPosition
+            // If this Actor is a Player, add to the cameraPosition.
+            // It will be divided by the amount of alive Players below.
             if(actor instanceof Player) {
                 newCameraPosition.x += actor.position.x;
                 newCameraPosition.y += actor.position.y;
+                alivePlayers++;
             }
             
             // Update the Actor
@@ -150,9 +155,9 @@ class Map
             checkCollisions(actor);
         }
 
-        // Make the camera position the average
-        newCameraPosition.x /= 3;
-        newCameraPosition.y /= 3;
+        // Make the camera position the average between all alive players
+        newCameraPosition.x /= alivePlayers;
+        newCameraPosition.y /= alivePlayers;
 
         // Subtract the half screen size from the camera position
         newCameraPosition.x -= SCREEN_SIZE.x / 2;
